@@ -1,9 +1,14 @@
-application:
+spring:
+  application:
+    name: rs
 server:
   port: 7777
 eureka:
   instance:
-    hostname: rs
+    hostname: localhost
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 4000
   client:
     registerWithEureka: false
     fetchRegistry: false
