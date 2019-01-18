@@ -57,12 +57,15 @@ public class AccessTokenUtils {
     }
 
     private OAuth2AccessToken getAccessToken() throws AccessDeniedException {
-        OAuth2AccessToken token;
+        OAuth2AccessToken token=null;
         // 抽取token
         Authentication a = tokenExtractor.extract(request);
         try {
+            System.out.println("----------------------getAccessToken="+tokenStore+"----------------------------------------");
+            System.out.println("----------------------getPrincipal="+a+"----------------------------------------");
             // 调用JwtAccessTokenConverter的extractAccessToken方法解析token
             token = tokenStore.readAccessToken((String) a.getPrincipal());
+            System.out.println("---------------------------"+token.getValue()+"-----------------------------------");
         } catch(Exception e) {
             throw new AccessDeniedException("AccessToken Not Found.");
         }
