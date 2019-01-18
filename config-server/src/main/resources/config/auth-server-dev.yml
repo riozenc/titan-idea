@@ -41,6 +41,10 @@ spring:
         login-password: "000000"
   freemarker:
       request-context-attribute: request
+      template-loader-path: classpath:/templates
+      check-template-location: true
+      content-type: text/html
+      suffix: .ftl
   rabbitmq:
       host: localhost
       port: 5672

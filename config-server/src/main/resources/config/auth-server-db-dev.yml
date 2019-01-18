@@ -1,5 +1,5 @@
 server:
-  port: 18008
+  port: 18002
 # 数据源配置
 spring:
   datasource:
@@ -55,6 +55,6 @@ security:
 # mybatis 配置
 mybatis:
   type-aliases-package: com.wisdom.auth.db.mybatis.mapper.model
-  mapper-locations: classpath:mybatis/mybatis.mapper/*.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
 logging:
   file: logs/auth-server-db.log
