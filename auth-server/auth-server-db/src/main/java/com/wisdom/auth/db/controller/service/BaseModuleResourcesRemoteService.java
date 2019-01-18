@@ -1,4 +1,4 @@
-package com.wisdom.auth.db.service;
+package com.wisdom.auth.db.controller.service;
 
 import com.wisdom.auth.db.mapper.model.BaseModuleResources;
 import com.wisdom.auth.common.pojo.ResponseData;

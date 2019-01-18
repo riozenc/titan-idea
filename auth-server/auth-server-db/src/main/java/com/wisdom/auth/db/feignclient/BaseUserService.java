@@ -4,7 +4,7 @@ import com.wisdom.auth.db.InterfaceService;
 import com.wisdom.auth.db.mapper.model.BaseUser;
 import com.wisdom.auth.common.pojo.ResponseCode;
 import com.wisdom.auth.common.pojo.ResponseData;
-import com.wisdom.auth.db.service.BaseUserRemoteService;
+import com.wisdom.auth.db.controller.service.BaseUserRemoteService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 
