@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.wisdom.auth.autoconfigure.config.mapper.MapperConfiguration,\
+com.wisdom.auth.autoconfigure.config.pagehelper.PageHelperAutoConfiguration

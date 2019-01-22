@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: auth-data
+  profiles:
+    active: dev
+  cloud:
+    #consul:
+    #  host: ${CONSUL_HOST:localhost}
+    #  port: ${CONSUL_PORT:8500}
+    #  discovery:
+    #   prefer-ip-address: true
+    config:
+      fail-fast: true
+      discovery:
+        service-id: config-server
+        enabled: true
+      profile: ${spring.profiles.active}
+      label: ${spring.profiles.active}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+
+
+#logging:
+#  config: classpath:logback.xml

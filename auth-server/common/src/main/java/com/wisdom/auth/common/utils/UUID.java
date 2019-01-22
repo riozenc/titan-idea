@@ -1,7 +1,7 @@
 package com.wisdom.auth.common.utils;
 
 /**
- * Created by yxs on 2019/1/18.
+ * Created by fp295 on 2018/5/12.
  */
 public class UUID {
 
