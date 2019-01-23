@@ -5,7 +5,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
- * Created by fp295 on 2018/4/9.
+ * Created by yxs on 2019/1/9.
  */
 @EnableResourceServer
 @SpringCloudApplication

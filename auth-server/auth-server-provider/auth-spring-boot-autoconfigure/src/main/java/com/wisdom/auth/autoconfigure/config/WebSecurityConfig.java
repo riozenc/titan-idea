@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.provider.authentication.BearerTokenEx
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
 
 /**
- * Created by fp295 on 2018/4/15.
+ * Created by yxs on 2019/1/15.
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

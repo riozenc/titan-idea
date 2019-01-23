@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import tk.mybatis.mapper.entity.Config;
 
 /**
- * Created by fp295 on 2018/4/7.
+ * Created by yxs on 2019/1/7.
  */
 @ConfigurationProperties(prefix = "mapper")
 public class MapperProperties extends Config{

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisdom.auth.data.provider.mapper.mapper.RoleMenuRelMapper" >
+  <resultMap id="BaseResultMap" type="com.wisdom.auth.data.api.mapper.model.RoleMenuRel" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="MENU_ID" property="moduleId" jdbcType="INTEGER" />
+    <result column="BUTTON" property="button" jdbcType="INTEGER" />
+    <result column="OPERATOR_ID" property="operatorId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="selectLeafRoleModule" resultMap="BaseResultMap">
+    SELECT * FROM ROLE_MENU_REL brm WHERE brm.ROLE_ID = #{roleId} AND
+    (SELECT count(0) FROM MENU_INFO bms WHERE bms.PARENT_ID = brm.MENU_ID) = 0
+  </select>
+</mapper>

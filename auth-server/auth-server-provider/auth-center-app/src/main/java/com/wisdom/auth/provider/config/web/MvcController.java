@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -83,16 +84,16 @@ public class MvcController {
         model.put("userName", userName);
         // 获取全部客户端应用
         //多个客户端 TODO ?
-        ResponseData responseData=null;
-        if(null!=baseClientService.getAllClient()) {
-            responseData = baseClientService.getAllClient();
-            System.out.println("====baseClientService=====");
+        ResponseData responseData=baseClientService.getAllClient();
+        if(null!=responseData) {
+            System.out.println("====baseClientService====="+((List)responseData.getData()).size());
         }else {
 //            responseData = baseClientService2.getAllClient();
 //            System.out.println("====baseClientService2=====");
         }
 
         if(ResponseCode.SUCCESS.getCode().equals(responseData.getCode()) && responseData.getData() != null) {
+            System.out.println("====baseClientService.getAllClient()=====success");
             model.put("client",responseData.getData());
         } else {
             model.put("client",new ArrayList<>());

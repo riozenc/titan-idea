@@ -1,6 +1,6 @@
 package com.wisdom.auth.api.pojo.auth;
 
-import com.wisdom.auth.data.api.mapper.model.BaseUser;
+import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -9,17 +9,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
- * Created by fp295 on 2018/4/29.
+ * Created by yxs on 2019/1/22.
  * 包装org.springframework.security.core.userdetails.User类
- * 新增 baseUser 用于生成 jwt 的用户信息
+ * 新增 userInfo 用于生成 jwt 的用户信息
  */
 public class BaseUserDetail implements UserDetails, CredentialsContainer {
 
-    private final BaseUser baseUser;
+    private final UserInfo userInfo;
     private final org.springframework.security.core.userdetails.User user;
 
-    public BaseUserDetail(BaseUser baseUser, User user) {
-        this.baseUser = baseUser;
+    public BaseUserDetail(UserInfo userInfo, User user) {
+        this.userInfo = userInfo;
         this.user = user;
     }
 
@@ -64,7 +64,7 @@ public class BaseUserDetail implements UserDetails, CredentialsContainer {
         return user.isEnabled();
     }
 
-    public BaseUser getBaseUser() {
-        return baseUser;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 }

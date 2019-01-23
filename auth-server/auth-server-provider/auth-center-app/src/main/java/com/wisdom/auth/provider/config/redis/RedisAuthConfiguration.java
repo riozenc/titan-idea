@@ -1,8 +1,8 @@
 package com.wisdom.auth.provider.config.redis;
 
 import com.wisdom.auth.api.config.RedisObjectSerializer;
-import com.wisdom.auth.data.api.mapper.model.BaseModuleResources;
-import com.wisdom.auth.data.api.mapper.model.BaseRole;
+import com.wisdom.auth.data.api.mapper.model.MenuInfo;
+import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * Created by fp295 on 2018/4/12.
+ * Created by yxs on 2019/1/12.
  * Redis配置类
  */
 @Configuration
@@ -21,8 +21,8 @@ public class RedisAuthConfiguration {
     private JedisConnectionFactory con;
 
     @Bean
-    public RedisTemplate<String, BaseRole> baseRoleTemplate() {
-        RedisTemplate<String, BaseRole> template = new RedisTemplate();
+    public RedisTemplate<String, RoleInfo> baseRoleTemplate() {
+        RedisTemplate<String, RoleInfo> template = new RedisTemplate();
         template.setConnectionFactory(con);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new RedisObjectSerializer());
@@ -30,8 +30,8 @@ public class RedisAuthConfiguration {
     }
 
     @Bean
-    public RedisTemplate<String, BaseModuleResources> baseModelTemplate() {
-        RedisTemplate<String, BaseModuleResources> template = new RedisTemplate();
+    public RedisTemplate<String, MenuInfo> baseModelTemplate() {
+        RedisTemplate<String, MenuInfo> template = new RedisTemplate();
         template.setConnectionFactory(con);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new RedisObjectSerializer());

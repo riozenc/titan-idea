@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import javax.sql.DataSource;
 
 /**
- * Created by fp295 on 2018/4/16.
+ * Created by yxs on 2019/1/16.
  */
 @Configuration
 @Order(2)

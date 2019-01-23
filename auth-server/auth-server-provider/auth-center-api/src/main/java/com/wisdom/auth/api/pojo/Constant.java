@@ -1,7 +1,7 @@
 package com.wisdom.auth.api.pojo;
 
 /**
- * Created by fp295 on 2018/4/16.
+ * Created by yxs on 2019/1/16.
  */
 public class Constant {
 

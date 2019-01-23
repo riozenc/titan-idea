@@ -10,7 +10,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import java.util.List;
 
 /**
- * Created by fp295 on 2018/4/9.
+ * Created by yxs on 2019/1/9.
  */
 @FeignClient(name = InterfaceService.SERVICE_NAME, fallback = BaseClientService.HystrixClientFallback.class)
 public interface BaseClientService extends BaseClientRemoteService {
