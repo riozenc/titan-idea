@@ -61,3 +61,5 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 logging:
   file: logs/auth-server-db.log
+  level:
+    com.wisdom.auth: debug

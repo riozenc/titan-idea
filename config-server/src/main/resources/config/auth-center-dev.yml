@@ -53,3 +53,5 @@ spring:
 
 logging:
   file: logs/auth-server.log
+  level:
+      com.wisdom.auth: debug
