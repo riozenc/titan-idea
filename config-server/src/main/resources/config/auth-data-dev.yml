@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/main-data?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: df6100e
-      password: wisdom.df6100
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: one
+      password: df6100
       driver-class-name: com.mysql.jdbc.Driver
       max-active: 20
       initial-size: 1
@@ -35,10 +35,11 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
   rabbitmq:
-      host: localhost
+      host: ${MQ_HOST:localhost}
       port: 5672
       username: guest
       password: guest
+
 # 权限配置
 security:
   ignored: |
@@ -46,6 +47,8 @@ security:
     /hystrix.stream/**,/info,/error,/health,/env,/metrics,/trace,/dump,
     /jolokia,/configprops,/activiti,/logfile,/refresh,/flyway,/liquibase,/loggers,
     /user/name/**,/user/phone/**,/role/user/**,/menu/user/*,/client/all
+  basic:
+    enable: false
   oauth2:
     resource:
       jwt:
@@ -54,7 +57,7 @@ security:
       serviceId: ${spring.application.name}
 # mybatis 配置
 mybatis:
-  type-aliases-package: com.wisdom.auth.db.mybatis.mapper.model
+  type-aliases-package: com.wisdom.auth.common.db.mapper.model
   mapper-locations: classpath:mybatis/mapper/*.xml
 logging:
   file: logs/auth-server-db.log

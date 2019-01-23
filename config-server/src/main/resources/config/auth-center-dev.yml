@@ -13,9 +13,9 @@ spring:
     port: ${REDIS_PORT:6379}
   datasource:
     druid:
-      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/main-data?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: df6100e
-      password: wisdom.df6100
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: one
+      password: df6100
       driver-class-name: com.mysql.jdbc.Driver
       max-active: 20
       initial-size: 1
@@ -41,14 +41,15 @@ spring:
         login-password: "000000"
   freemarker:
       request-context-attribute: request
-      template-loader-path: classpath:/templates
-      check-template-location: true
-      content-type: text/html
-      suffix: .ftl
+      #template-loader-path: classpath:/templates
+      #check-template-location: true
+      #content-type: text/html
+      #suffix: .ftl
   rabbitmq:
-      host: localhost
+      host: ${MQ_HOST:localhost}
       port: 5672
       username: guest
       password: guest
+
 logging:
   file: logs/auth-server.log
