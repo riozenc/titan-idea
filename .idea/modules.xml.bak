@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server-provider/auth-center-api/auth-center-api.iml" filepath="$PROJECT_DIR$/auth-server/auth-server-provider/auth-center-api/auth-center-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server-provider/auth-center-app/auth-center-app.iml" filepath="$PROJECT_DIR$/auth-server/auth-server-provider/auth-center-app/auth-center-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server.iml" filepath="$PROJECT_DIR$/auth-server/auth-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server-data/auth-server-db.iml" filepath="$PROJECT_DIR$/auth-server/auth-server-data/auth-server-db.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server-provider/auth-server-provider.iml" filepath="$PROJECT_DIR$/auth-server/auth-server-provider/auth-server-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/auth-server-provider/auth-spring-boot-autoconfigure/auth-spring-boot-autoconfigure.iml" filepath="$PROJECT_DIR$/auth-server/auth-server-provider/auth-spring-boot-autoconfigure/auth-spring-boot-autoconfigure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-mybatis-pagehelper.iml" filepath="$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-mybatis-pagehelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-spring-boot-autoconfigure/db-spring-boot-autoconfigure.iml" filepath="$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-spring-boot-autoconfigure/db-spring-boot-autoconfigure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-spring-boot-starter/db-spring-boot-starter.iml" filepath="$PROJECT_DIR$/auth-server/db-mybatis-pagehelper/db-spring-boot-starter/db-spring-boot-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rs/rs.iml" filepath="$PROJECT_DIR$/rs/rs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/titan-idea.iml" filepath="$PROJECT_DIR$/.idea/titan-idea.iml" />
+    </modules>
+  </component>
+</project>
