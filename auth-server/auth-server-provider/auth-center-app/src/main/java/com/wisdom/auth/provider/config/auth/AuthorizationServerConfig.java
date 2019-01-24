@@ -57,7 +57,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.withClientDetails(getJdbcClientDetailsService());
     }
 
-
+    /**
+     * 用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)
+     * @param endpoints
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager)
@@ -68,6 +71,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //.tokenStore(getJdbcTokenStore());
     }
 
+    /**
+     * 用来配置令牌端点(Token Endpoint)的安全约束
+     * @param oauthServer
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer
