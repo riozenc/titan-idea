@@ -1,4 +1,4 @@
-package com.riozenc;
+package org.gateway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,8 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder.Builder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-//import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -18,9 +19,10 @@ import org.springframework.web.filter.CorsFilter;
  * Hello world!
  *
  */
-//@RestController
+@RestController
 @SpringBootApplication
 @EnableEurekaClient
+@EnableResourceServer
 public class GateWayApp {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GateWayApp.class);
@@ -44,7 +46,7 @@ public class GateWayApp {
 		
 //		http://172.21.99.14:8099/wisdomServer/wisdomClient/main.html
 		Builder asyncBuilder = builder
-				.route(r -> r.path("/wisdomServer/wisdomClient/main.html").uri("http://172.21.99.14:8099/"));
+				.route(r -> r.path("/login/login.do").uri("http://172.21.99.14:8099/"));
 
 		RouteLocator routeLocator = asyncBuilder.build();
 		return routeLocator;

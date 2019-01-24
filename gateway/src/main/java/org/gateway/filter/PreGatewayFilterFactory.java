@@ -1,9 +1,9 @@
 /**
  *    Auth:riozenc
  *    Date:2019年1月3日 上午8:21:04
- *    Title:org.gateway.PreGatewayFilterFactory.java
+ *    Title:org.gateway.filter.PreGatewayFilterFactory.java
  **/
-package com.riozenc;
+package org.gateway.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
