@@ -20,7 +20,7 @@ import java.util.List;
 
 
 /**
- * Created by fp295 on 2018/4/17.
+ * Created by yxs on 2019/1/17.
  */
 @RestController
 public class OauthClientDetailsController extends CrudController<OauthClientDetails, OauthClientDetailsRequest> implements BaseClientRemoteService {

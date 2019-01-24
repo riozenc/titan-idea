@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisdom.auth.data.provider.mapper.mapper.MenuInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.wisdom.auth.data.api.mapper.model.MenuInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="menuMap" type="com.wisdom.auth.data.api.mapper.model.MenuInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <collection  column="{ID=ID,USER_ID=USER_ID}" property="subModules" select="selectMenusByParentIdWithOperating" />
+  </resultMap>
+
+  <resultMap id="rolesMap" type="com.wisdom.auth.data.api.mapper.model.MenuInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR" />
+    <collection  column="{ID=ID,USER_ID=USER_ID}" property="subModules" select="selectModuleByParentId" />
+  </resultMap>
+
+  <resultMap id="moduleTree" type="com.wisdom.auth.data.api.mapper.model.MenuInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR" />
+    <collection  column="{ID=ID}" property="subModules" select="selectModuleTreeByParentId" />
+  </resultMap>
+
+  <resultMap id="ModuleAndSystemMap" type="com.wisdom.auth.data.api.pojo.response.ModuleAndSystemResponse" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <collection  column="{ID=ID}" property="subModules"
+                 select="selectModuleAndSystemByParentId" />
+  </resultMap>
+
+  <select id="getMenusByUserId" resultMap="menuMap">
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID
+     FROM USER_ROLE_REL bur
+     LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
+     LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
+     LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
+     WHERE bur.USER_ID = #{userId} AND bmr.PARENT_ID =0 AND bs.ACTIVE =1
+  </select>
+
+  <select id="selectMenusByParentIdWithOperating" resultMap="menuMap">
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID
+     FROM USER_ROLE_REL bur
+      LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
+      LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
+    WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
+  </select>
+
+  <select id="selectModuleByRoleId" resultMap="rolesMap">
+    SELECT bmr.*, bur.USER_ID as USER_ID, bs.PROJECT_NAME
+     FROM ROLE_MENU_REL brm
+    LEFT JOIN MENU_INFO bmr on brm.MENU_ID = bmr.ID
+    LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
+    LEFT JOIN USER_ROLE_REL bur ON bur.ROLE_ID = brm.ROLE_ID
+    WHERE brm.ROLE_ID = #{ID} and bur.USER_ID = #{USER_ID} and bmr.PARENT_ID=0 and bs.ACTIVE = 1
+  </select>
+
+  <select id="selectModuleByParentId" resultMap="rolesMap">
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID, bs.PROJECT_NAME
+     FROM USER_ROLE_REL bur
+    LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
+    LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
+    LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
+    WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
+  </select>
+
+  <select id="selectModuleTree" resultMap="moduleTree">
+    SELECT * FROM MENU_INFO
+    <where>
+      <if test="id == 'root'">
+        PARENT_ID =0 AND SYSTEM_ID = #{systemId}
+      </if>
+      <if test="id != 'root'">
+        PARENT_ID = #{id}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectModuleTreeByParentId" resultMap="BaseResultMap">
+    SELECT * FROM MENU_INFO
+    WHERE PARENT_ID = #{ID}
+  </select>
+
+  <select id="selectModuleAndSystemBySystemId" resultMap="ModuleAndSystemMap">
+    SELECT ID, MODULE_NAME FROM MENU_INFO
+    WHERE SYSTEM_ID = #{ID} AND PARENT_ID =0
+  </select>
+
+  <select id="selectModuleAndSystemByParentId" resultMap="ModuleAndSystemMap">
+    SELECT ID, MODULE_NAME FROM MENU_INFO
+    WHERE  PARENT_ID = #{ID}
+  </select>
+
+</mapper>

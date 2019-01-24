@@ -1,9 +1,9 @@
 package com.wisdom.auth.autoconfigure.utils;
 
 import com.wisdom.auth.api.pojo.Constant;
-import com.wisdom.auth.data.api.mapper.model.BaseModuleResources;
-import com.wisdom.auth.data.api.mapper.model.BaseRole;
-import com.wisdom.auth.data.api.mapper.model.BaseUser;
+import com.wisdom.auth.data.api.mapper.model.MenuInfo;
+import com.wisdom.auth.data.api.mapper.model.RoleInfo;
+import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 /**
- * Created by fp295 on 2018/4/29.
+ * Created by yxs on 2019/1/29.
  */
 public class AccessTokenUtils {
 
@@ -31,27 +31,27 @@ public class AccessTokenUtils {
     private TokenExtractor tokenExtractor;
 
     @Autowired
-    private RedisTemplate<String, BaseRole> baseRoleTemplate;
+    private RedisTemplate<String, RoleInfo> baseRoleTemplate;
 
     @Autowired
-    private RedisTemplate<String, BaseModuleResources> baseModelTemplate;
+    private RedisTemplate<String, MenuInfo> baseModelTemplate;
 
     /**
      * 从token获取用户信息
      * @return
      */
-    public BaseUser getUserInfo(){
-        return (BaseUser) getAccessToken().getAdditionalInformation().get(Constant.USER_INFO);
+    public UserInfo getUserInfo(){
+        return (UserInfo) getAccessToken().getAdditionalInformation().get(Constant.USER_INFO);
     }
 
-    public List<BaseRole> getRoleInfo(){
-        String userId = getUserInfo().getId();
+    public List<RoleInfo> getRoleInfo(){
+        String userId = getUserInfo().getId().toString();
         long size = baseRoleTemplate.opsForList().size(userId);
         return baseRoleTemplate.opsForList().range(userId, 0, size);
     }
 
-    public List<BaseModuleResources> getMenuInfo(){
-        String key = getUserInfo().getId() + "-menu";
+    public List<MenuInfo> getMenuInfo(){
+        String key = getUserInfo().getId().toString() + "-menu";
         long size = baseModelTemplate.opsForList().size(key);
         return baseModelTemplate.opsForList().range(key, 0, size);
     }

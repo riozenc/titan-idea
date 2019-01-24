@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * Created by fp295 on 2018/4/9.
+ * Created by yxs on 2019/1/9.
  */
 @Service
 public class OauthClientDetailsService extends BaseService<OauthClientDetails> {

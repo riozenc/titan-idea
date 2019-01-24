@@ -6,7 +6,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
 /**
- * Created by fp295 on 2018/4/2. 编译  规则
+ * Created by yxs on 2019/1/2. 编译  规则
  */
 @SpringCloudApplication
 @EnableAuthorizationServer

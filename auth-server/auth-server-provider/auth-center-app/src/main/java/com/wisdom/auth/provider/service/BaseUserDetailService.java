@@ -3,13 +3,13 @@ package com.wisdom.auth.provider.service;
 import com.wisdom.auth.api.pojo.auth.BaseUserDetail;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.utils.JsonUtils;
-import com.wisdom.auth.data.api.mapper.model.BaseModuleResources;
-import com.wisdom.auth.data.api.mapper.model.BaseRole;
-import com.wisdom.auth.data.api.mapper.model.BaseUser;
+import com.wisdom.auth.data.api.mapper.model.MenuInfo;
+import com.wisdom.auth.data.api.mapper.model.RoleInfo;
+import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
-import com.wisdom.auth.data.client.BaseModuleResourceService;
-import com.wisdom.auth.data.client.BaseRoleService;
-import com.wisdom.auth.data.client.BaseUserService;
+import com.wisdom.auth.data.client.MenuInfoService;
+import com.wisdom.auth.data.client.RoleInfoService;
+import com.wisdom.auth.data.client.UserInfoService;
 import com.wisdom.auth.provider.config.auth.filter.MyLoginAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,26 +41,26 @@ public class BaseUserDetailService implements UserDetailsService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private BaseUserService baseUserService;
+    private UserInfoService baseUserService;
     @Autowired
-    private BaseRoleService baseRoleService;
+    private RoleInfoService baseRoleService;
     @Autowired
-    private BaseModuleResourceService baseModuleResourceService;
+    private MenuInfoService menuInfoService;
 //    @Autowired
-//    private com.peng.main.client1.BaseUserService baseUserService2;
+//    private com.peng.main.client1.UserInfoService baseUserService2;
 //    @Autowired
-//    private com.peng.main.client1.BaseRoleService baseRoleService2;
+//    private com.peng.main.client1.RoleInfoService baseRoleService2;
 //    @Autowired
 //    private com.peng.main.client1.BaseModuleResourceService baseModuleResourceService2;
     @Autowired
-    private RedisTemplate<String, BaseRole> redisTemplate;
+    private RedisTemplate<String, RoleInfo> redisTemplate;
     @Autowired
-    private RedisTemplate<String, BaseModuleResources> resourcesTemplate;
+    private RedisTemplate<String, MenuInfo> resourcesTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException {
         //user&:@test
-        BaseUser baseUser;
+        UserInfo userInfo;
         String[] parameter;
         int index = var1.indexOf("&:@");
         System.out.println("-------------"+var1);
@@ -73,7 +73,7 @@ public class BaseUserDetailService implements UserDetailsService {
 
         // 手机验证码调用FeignClient根据电话号码查询用户 TODO 多个clinet?
         if(MyLoginAuthenticationFilter.SPRING_SECURITY_RESTFUL_TYPE_PHONE.equals(parameter[0])){
-            ResponseData<BaseUser> baseUserResponseData =null;
+            ResponseData<UserInfo> baseUserResponseData =null;
             //if(null!=baseUserService.getUserByPhone(parameter[1])){
                 baseUserResponseData=baseUserService.getUserByPhone(parameter[1]);
              //   System.out.println("====baseUserService.getUserByPhone=====");
@@ -86,13 +86,13 @@ public class BaseUserDetailService implements UserDetailsService {
                 logger.error("找不到该用户，手机号码：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，手机号码：" + parameter[1]);
             }
-            baseUser = baseUserResponseData.getData();
+            userInfo = baseUserResponseData.getData();
         } else if(MyLoginAuthenticationFilter.SPRING_SECURITY_RESTFUL_TYPE_QR.equals(parameter[0])){
             // 扫码登陆根据token从redis查询用户
-            baseUser = null;
+            userInfo = null;
         } else {
             // 账号密码登陆调用FeignClient根据用户名查询用户 TODO 多个clinet?
-           ResponseData<BaseUser> baseUserResponseData = null;
+           ResponseData<UserInfo> baseUserResponseData = null;
             //if(null!=baseUserService.getUserByUserName(parameter[1])) {
                 baseUserResponseData= baseUserService.getUserByUserName(parameter[1]);
              //   System.out.println("====baseUserService.getUserByUserName=====");
@@ -105,21 +105,21 @@ public class BaseUserDetailService implements UserDetailsService {
                 logger.error("找不到该用户，用户名：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，用户名：" + parameter[1]);
             }
-            baseUser = baseUserResponseData.getData();
+            userInfo = baseUserResponseData.getData();
         }
 
 
         // 调用FeignClient查询角色
-        ResponseData<List<BaseRole>> baseRoleListResponseData = null;
-        //if(null!=baseRoleService.getRoleByUserId(baseUser.getId())){
-            baseRoleListResponseData=baseRoleService.getRoleByUserId(baseUser.getId());
-         //   System.out.println("====baseRoleService.getMenusByUserId(baseUser.getId()=====");
+        ResponseData<List<RoleInfo>> baseRoleListResponseData = null;
+        //if(null!=baseRoleService.getRoleByUserId(userInfo.getId())){
+            baseRoleListResponseData=baseRoleService.getRoleByUserId(userInfo.getId());
+         //   System.out.println("====baseRoleService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
-//            baseRoleListResponseData=baseRoleService2.getRoleByUserId(baseUser.getId());
-//            System.out.println("====baseRoleService2.getMenusByUserId(baseUser.getId()=====");
+//            baseRoleListResponseData=baseRoleService2.getRoleByUserId(userInfo.getId());
+//            System.out.println("====baseRoleService2.getMenusByUserId(userInfo.getId()=====");
 //        }
         System.out.println("====baseRoleListResponseData:"+ JsonUtils.deserializer(baseRoleListResponseData));
-        List<BaseRole> roles;
+        List<RoleInfo> roles;
         if(baseRoleListResponseData.getData() == null ||  !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getCode())){
             logger.error("查询角色失败！");
             roles = new ArrayList<>();
@@ -128,53 +128,65 @@ public class BaseUserDetailService implements UserDetailsService {
         }
 
         //调用FeignClient查询菜单
-        ResponseData<List<BaseModuleResources>> baseModuleResourceListResponseData = null;
-       // if(null!=baseModuleResourceService.getMenusByUserId(baseUser.getId())){
-            baseModuleResourceListResponseData = baseModuleResourceService.getMenusByUserId(baseUser.getId());
-           // System.out.println("==== baseModuleResourceService.getMenusByUserId(baseUser.getId()=====");
+        ResponseData<List<MenuInfo>> baseModuleResourceListResponseData = null;
+       // if(null!=baseModuleResourceService.getMenusByUserId(userInfo.getId())){
+            baseModuleResourceListResponseData = menuInfoService.getMenusByUserId(userInfo.getId());
+           // System.out.println("==== baseModuleResourceService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
-//            baseModuleResourceListResponseData = baseModuleResourceService2.getMenusByUserId(baseUser.getId());
-//            System.out.println("==== baseModuleResourceService2.getMenusByUserId(baseUser.getId()=====");
+//            baseModuleResourceListResponseData = baseModuleResourceService2.getMenusByUserId(userInfo.getId());
+//            System.out.println("==== baseModuleResourceService2.getMenusByUserId(userInfo.getId()=====");
 //        }
 
         System.out.println("====baseModuleResourceListResponseData:"+JsonUtils.deserializer(baseModuleResourceListResponseData));
         // 获取用户权限列表
-        List<GrantedAuthority> authorities = convertToAuthorities(baseUser, roles);  //TODO
+        List<GrantedAuthority> authorities = convertToAuthorities(userInfo, roles);  //TODO
 
         // 存储菜单到redis
         if( ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getCode()) && baseModuleResourceListResponseData.getData() != null){
-            resourcesTemplate.delete(baseUser.getId() + "-menu");
+            resourcesTemplate.delete(userInfo.getId() + "-menu");
             baseModuleResourceListResponseData.getData().forEach(e -> {
-                resourcesTemplate.opsForList().leftPush(baseUser.getId() + "-menu", e);
+                resourcesTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
             });
         }
 
         // 返回带有用户权限信息的User
-        org.springframework.security.core.userdetails.User user =  new org.springframework.security.core.userdetails.User(baseUser.getUserName(),
-                baseUser.getPassword(), isActive(baseUser.getActive()), true, true, true, authorities);
-        return new BaseUserDetail(baseUser, user);
-    }
-
-    private boolean isActive(int active){
-        return active == 1 ? true : false;
+        org.springframework.security.core.userdetails.User user =  new org.springframework.security.core.userdetails.User(userInfo.getUserName(),
+                userInfo.getPassword(), isActive(userInfo.getStatus()), isAccountNonExpired(userInfo.getStatus()), true, isAccountNonLocked(userInfo.getStatus()), authorities);
+        return new BaseUserDetail(userInfo, user);
     }
 
     /**
+     *
+     * @param active 1 正常、2 禁用、3 删除、4 锁定
+     * @return
+     */
+    private boolean isActive(int active){
+        return active == 1||active == 4 ? true : false;
+    }
+
+    private boolean isAccountNonExpired(int active){
+        return active == 2 ? false : true;
+    }
+
+    private boolean isAccountNonLocked(int active){
+        return active == 4 ? false : true;
+    }
+    /**
      * 当用户拥有一个角色或多个角色，返回资源权限
-     * @param baseUser
+     * @param userInfo
      * @param roles
      * @return
      */
-    private List<GrantedAuthority> convertToAuthorities(BaseUser baseUser, List<BaseRole> roles) {
+    private List<GrantedAuthority> convertToAuthorities(UserInfo userInfo, List<RoleInfo> roles) {
         List<GrantedAuthority> authorities = new ArrayList();
         // 清除 Redis 中用户的角色
-        redisTemplate.delete(baseUser.getId());
+        redisTemplate.delete(userInfo.getId().toString());
         roles.forEach(e -> {
             // 存储用户、角色信息到GrantedAuthority，并放到GrantedAuthority列表
-            GrantedAuthority authority = new SimpleGrantedAuthority(e.getRoleCode());
+            GrantedAuthority authority = new SimpleGrantedAuthority(e.getRoleNo());
             authorities.add(authority);
             //存储角色到redis
-            redisTemplate.opsForList().rightPush(baseUser.getId(), e);
+            redisTemplate.opsForList().rightPush(userInfo.getId().toString(), e);
         });
         return authorities;
     }

@@ -3,7 +3,7 @@ package com.wisdom.auth.api.token;
 import com.wisdom.auth.api.pojo.Constant;
 import com.wisdom.auth.api.pojo.auth.BaseUserDetail;
 import com.wisdom.auth.common.utils.JsonUtils;
-import com.wisdom.auth.data.api.mapper.model.BaseUser;
+import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -27,10 +27,10 @@ public class JwtAccessToken extends JwtAccessTokenConverter {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
 
         // 设置额外用户信息
-        BaseUser baseUser = ((BaseUserDetail) authentication.getPrincipal()).getBaseUser();
-        baseUser.setPassword(null);
+        UserInfo userInfo = ((BaseUserDetail) authentication.getPrincipal()).getUserInfo();
+        userInfo.setPassword(null);
         // 将用户信息添加到token额外信息中
-        defaultOAuth2AccessToken.getAdditionalInformation().put(Constant.USER_INFO, baseUser);
+        defaultOAuth2AccessToken.getAdditionalInformation().put(Constant.USER_INFO, userInfo);
 
         return super.enhance(defaultOAuth2AccessToken, authentication);
     }
@@ -53,9 +53,9 @@ public class JwtAccessToken extends JwtAccessTokenConverter {
 
     }
 
-    private BaseUser convertUserData(Object map) {
+    private UserInfo convertUserData(Object map) {
         String json = JsonUtils.deserializer(map);
-        BaseUser user = JsonUtils.serializable(json, BaseUser.class);
+        UserInfo user = JsonUtils.serializable(json, UserInfo.class);
         return user;
     }
 }

@@ -4,21 +4,21 @@ package com.wisdom.auth.data.api.pojo.response;
 import java.util.List;
 
 /**
- * Created by fp295 on 2018/5/15.
+ * Created by yxs on 2019/1/22.
  */
 public class ModuleAndSystemResponse {
 
-    private String id;
+    private Integer id;
 
     private String moduleName;
 
     private List<ModuleAndSystemResponse> subModules;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

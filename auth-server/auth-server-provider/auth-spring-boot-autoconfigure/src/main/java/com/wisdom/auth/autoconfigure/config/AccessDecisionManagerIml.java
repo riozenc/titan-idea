@@ -1,8 +1,8 @@
 package com.wisdom.auth.autoconfigure.config;
 
 import com.wisdom.auth.autoconfigure.utils.AccessTokenUtils;
-import com.wisdom.auth.data.api.mapper.model.BaseModuleResources;
-import com.wisdom.auth.data.api.mapper.model.BaseRole;
+import com.wisdom.auth.data.api.mapper.model.MenuInfo;
+import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by fp295 on 2018/4/29.
+ * Created by yxs on 2019/1/29.
  */
 @ConfigurationProperties(prefix = "security")
 public class AccessDecisionManagerIml  implements AccessDecisionManager {
@@ -54,10 +54,10 @@ public class AccessDecisionManagerIml  implements AccessDecisionManager {
         }
 
         // URL 鉴权
-        Iterator<BaseRole> iterator = accessTokenUtils.getRoleInfo().iterator();
+        Iterator<RoleInfo> iterator = accessTokenUtils.getRoleInfo().iterator();
         while (iterator.hasNext())
-        {   BaseRole baseRole = iterator.next();
-            if (baseRole.getModules().size() > 0 && checkSubModule(baseRole.getModules())) {
+        {   RoleInfo roleInfo = iterator.next();
+            if (roleInfo.getModules().size() > 0 && checkSubModule(roleInfo.getModules())) {
                 return;
             }
         }
@@ -84,22 +84,22 @@ public class AccessDecisionManagerIml  implements AccessDecisionManager {
     }
 
     // 检查子模块权限
-    private boolean checkSubModule(List<BaseModuleResources> modules) {
+    private boolean checkSubModule(List<MenuInfo> modules) {
 
-        Iterator<BaseModuleResources> iterator = modules.iterator();
+        Iterator<MenuInfo> iterator = modules.iterator();
         while (iterator.hasNext())
         {
-            BaseModuleResources e = iterator.next();
+            MenuInfo e = iterator.next();
             System.out.println("-------------------------------applicationName:"+applicationName+"  e.getProjectName():"+e.getProjectName());
 
             // 匹配当前应用的资源
             if(applicationName.equals(e.getProjectName())) {
-                System.out.println("-------------------------------e.getIsOperating():"+e.getIsOperating()+"  e.getActive():"+e.getActive()+" e.getModulePath():"+e.getModulePath());
+                System.out.println("-------------------------------e.getIsLeaf():"+e.getIsLeaf()+"  e.getStatus():"+e.getStatus()+" e.getMenuUrl():"+e.getMenuUrl());
 
-                if (e.getIsOperating() == 1 && e.getActive() == 1 && e.getModulePath() != null && !"".equals(e.getModulePath())) {
+                if (e.getIsLeaf() == 1 && e.getStatus() == 1 && e.getMenuUrl() != null && !"".equals(e.getMenuUrl())) {
 
-                    System.out.println("-------------------------------返回 matchUrl:"+matchUrl(url, e.getModulePath())+" httpMethod:"+e.getHttpMethod().toUpperCase()+" "+httpMethod.toUpperCase());
-                    if (matchUrl(url, e.getModulePath()) && httpMethod.toUpperCase().equals(e.getHttpMethod().toUpperCase())) {
+                    System.out.println("-------------------------------返回 matchUrl:"+matchUrl(url, e.getMenuUrl()));//+" httpMethod:"+e.getHttpMethod().toUpperCase()+" "+httpMethod.toUpperCase());
+                    if (matchUrl(url, e.getMenuUrl())) {// && httpMethod.toUpperCase().equals(e.getHttpMethod().toUpperCase())
                         return true;
                     }
                 }
