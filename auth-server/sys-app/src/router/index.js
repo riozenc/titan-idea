@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
-import { UPDATE_MAIN_LOADING } from '../store/constant'
+import {UPDATE_MAIN_LOADING} from '../store/constant'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 

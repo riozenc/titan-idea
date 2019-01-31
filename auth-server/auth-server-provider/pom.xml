@@ -15,7 +15,6 @@
 
     <modules>
         <module>auth-center-api</module>
-        <module>auth-center-app</module>
         <module>auth-spring-boot-autoconfigure</module>
         <module>auth-spring-boot-starter</module>
 

@@ -1,10 +1,8 @@
 package com.wisdom.auth.data.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.common.utils.UUID;
 import com.wisdom.auth.data.api.mapper.model.RoleMenuRel;
 import com.wisdom.auth.data.provider.mapper.mapper.RoleMenuRelMapper;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

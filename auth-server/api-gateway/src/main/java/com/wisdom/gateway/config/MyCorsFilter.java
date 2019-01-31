@@ -1,4 +1,4 @@
-package com.wisdom.auth.provider.config.auth.filter;
+package com.wisdom.gateway.config;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,7 +13,7 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Component
-public class MyCorsFilter extends CorsFilter {
+public class MyCorsFilter extends CorsFilter{
     public MyCorsFilter() {
         super(configurationSource());
     }
@@ -30,4 +30,17 @@ public class MyCorsFilter extends CorsFilter {
 //        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return source;
     }
+//    @Bean
+//    public FilterRegistrationBean corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("*");
+//        source.registerCorsConfiguration("/**", config);
+//        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+//        return bean;
+//    }
 }

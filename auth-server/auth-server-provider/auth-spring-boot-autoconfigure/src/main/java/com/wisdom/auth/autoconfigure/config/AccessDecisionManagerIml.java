@@ -52,17 +52,17 @@ public class AccessDecisionManagerIml  implements AccessDecisionManager {
                 return;
             }
         }
-
+        return;
         // URL 鉴权
-        Iterator<RoleInfo> iterator = accessTokenUtils.getRoleInfo().iterator();
-        while (iterator.hasNext())
-        {   RoleInfo roleInfo = iterator.next();
-            if (roleInfo.getModules().size() > 0 && checkSubModule(roleInfo.getModules())) {
-                return;
-            }
-        }
-
-        throw new AccessDeniedException("无权限！");
+//        Iterator<RoleInfo> iterator = accessTokenUtils.getRoleInfo().iterator();
+//        while (iterator.hasNext())
+//        {   RoleInfo roleInfo = iterator.next();
+//            if (roleInfo.getModules().size() > 0 && checkSubModule(roleInfo.getModules())) {
+//                return;
+//            }
+//        }
+//
+//        throw new AccessDeniedException("无权限！");
 
     }
 

@@ -1,4 +1,5 @@
-import { UPDATE_MAIN_LOADING, UPDATE_MENU_INFO } from './constant'
+import {UPDATE_MAIN_LOADING, UPDATE_MENU_INFO} from './constant'
+
 export default {
   // 更新 store 中的加载状态
   [UPDATE_MAIN_LOADING] (state, { isLoading }) {
