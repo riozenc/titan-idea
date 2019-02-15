@@ -1,5 +1,6 @@
 package org.gateway;
 
+import com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -9,11 +10,8 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder.Builder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
 
 /**
  * Hello world!
@@ -22,7 +20,6 @@ import org.springframework.web.filter.CorsFilter;
 @RestController
 @SpringBootApplication
 @EnableEurekaClient
-@EnableResourceServer
 public class GateWayApp {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GateWayApp.class);
@@ -51,20 +48,5 @@ public class GateWayApp {
 		RouteLocator routeLocator = asyncBuilder.build();
 		return routeLocator;
 	}
-	/**
-	 * 解决前后端分离跨域问题
-	 *
-	 * @return
-	 */
-	@Bean
-	public CorsFilter corsFilter() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		final CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration("/**", config);
-		return new CorsFilter(source);
-	}
+
 }
