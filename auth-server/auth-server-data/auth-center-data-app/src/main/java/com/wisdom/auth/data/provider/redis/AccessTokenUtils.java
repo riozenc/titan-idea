@@ -1,6 +1,6 @@
 package com.wisdom.auth.data.provider.redis;
 
-import com.wisdom.auth.api.pojo.Constant;
+import com.wisdom.auth.common.constant.Constant;
 import com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration;
 import com.wisdom.auth.common.utils.JsonUtils;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;
@@ -8,12 +8,6 @@ import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-//import org.springframework.security.access.AccessDeniedException;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.oauth2.common.OAuth2AccessToken;
-//import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
-//import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +48,7 @@ public class AccessTokenUtils {
             if (token == null) {
                 return null;
             } else {
-                request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_TYPE, "Bearer");
+                request.setAttribute("ACCESS_TOKEN_TYPE", "Bearer");
             }
         }
         String content = accessTokenConfiguration.extract(token);

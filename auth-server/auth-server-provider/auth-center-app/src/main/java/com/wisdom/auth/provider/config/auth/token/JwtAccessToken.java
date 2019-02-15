@@ -1,7 +1,7 @@
-package com.wisdom.auth.api.token;
+package com.wisdom.auth.provider.config.auth.token;
 
-import com.wisdom.auth.api.pojo.Constant;
-import com.wisdom.auth.api.pojo.auth.BaseUserDetail;
+import com.wisdom.auth.common.constant.Constant;
+import com.wisdom.auth.provider.config.auth.pojo.BaseUserDetail;
 import com.wisdom.auth.common.utils.JsonUtils;
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

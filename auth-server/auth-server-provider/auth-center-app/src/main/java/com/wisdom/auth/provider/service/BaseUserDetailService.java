@@ -1,6 +1,6 @@
 package com.wisdom.auth.provider.service;
 
-import com.wisdom.auth.api.pojo.auth.BaseUserDetail;
+import com.wisdom.auth.provider.config.auth.pojo.BaseUserDetail;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.utils.JsonUtils;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;

@@ -1,7 +1,7 @@
 package com.wisdom.auth.provider.config.auth;
 
 
-import com.wisdom.auth.api.token.JwtAccessToken;
+import com.wisdom.auth.provider.config.auth.token.JwtAccessToken;
 import com.wisdom.auth.provider.service.BaseUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

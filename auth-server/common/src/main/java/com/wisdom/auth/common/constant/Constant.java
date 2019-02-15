@@ -1,4 +1,4 @@
-package com.wisdom.auth.api.pojo;
+package com.wisdom.auth.common.constant;
 
 /**
  * Created by yxs on 2019/1/16.

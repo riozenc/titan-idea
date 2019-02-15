@@ -1,4 +1,4 @@
-package com.wisdom.auth.api.pojo.auth;
+package com.wisdom.auth.provider.config.auth.pojo;
 
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import org.springframework.security.core.CredentialsContainer;

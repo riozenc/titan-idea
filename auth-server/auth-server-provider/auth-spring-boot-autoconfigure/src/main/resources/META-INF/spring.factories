@@ -1,4 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration,\
-com.wisdom.auth.autoconfigure.utils.AccessTokenUtils,\
-com.wisdom.auth.autoconfigure.config.RedisAuthConfiguration
+com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration

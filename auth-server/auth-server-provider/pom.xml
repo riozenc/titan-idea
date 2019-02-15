@@ -14,7 +14,6 @@
     <description>授权中心服务端</description>
 
     <modules>
-        <module>auth-center-api</module>
         <module>auth-spring-boot-autoconfigure</module>
         <module>auth-spring-boot-starter</module>
         <module>auth-center-app</module>

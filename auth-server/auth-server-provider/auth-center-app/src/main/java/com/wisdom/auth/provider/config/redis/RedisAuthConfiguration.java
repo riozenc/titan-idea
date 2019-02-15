@@ -1,6 +1,5 @@
 package com.wisdom.auth.provider.config.redis;
 
-import com.wisdom.auth.api.config.RedisObjectSerializer;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
