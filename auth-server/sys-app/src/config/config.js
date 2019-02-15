@@ -29,7 +29,20 @@ export default {
     // 配置认证头
     Vue.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$auth.token()
     console.info("Vue.prototype.$auth.token():"+Vue.prototype.$auth.token())
+    // Vue.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+    // Vue.axios.defaults.withCredentials = true
     // http 拦截器
+    // Vue.axios.interceptors.request.use(
+    //   config => {
+    //     config.headers = {
+    //       'Content-Type': 'application/x-www-form-urlencoded' // 设置很关键
+    //     }
+    //     return config
+    //   },
+    //   err => {
+    //     return Promise.reject(err)
+    //   }
+    // )
     Vue.axios.interceptors.response.use(function (response) {
       // Do something with response data
       return response

@@ -9,6 +9,7 @@ import com.wisdom.auth.data.api.mapper.model.RoleMenuRel;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.MenuInfoRequest;
 import com.wisdom.auth.data.api.service.MenuInfoRemoteService;
+import com.wisdom.auth.data.provider.redis.AccessTokenUtils;
 import com.wisdom.auth.data.provider.service.MenuInfoService;
 import com.wisdom.auth.data.provider.service.RoleMenuRelService;
 import org.apache.commons.lang.StringUtils;
@@ -32,8 +33,8 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
     @Autowired
     private MenuInfoService menuInfoService;
 
-//    @Autowired
-//    private AccessTokenUtils accessTokenUtils;
+    @Autowired
+    private AccessTokenUtils accessTokenUtils;
 
     @Autowired
     private RoleMenuRelService roleMenuRelService;
@@ -54,9 +55,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
 
     @GetMapping("/menu")
     public ResponseData<List<MenuInfo>> getCurrentMenu() {
-        System.out.println("--------------/menu----------provider1-------------------------------");//+accessTokenUtils.getMenuInfo());
+        System.out.println("--------------/menu----------provider1-------------------------------"+accessTokenUtils.getMenuInfo());
         logger.debug("查询当前用户菜单");
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), null);//
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), accessTokenUtils.getMenuInfo());//
     }
 
     @PostMapping(value = "/module/tree")

@@ -5,7 +5,7 @@ import com.wisdom.auth.data.api.InterfaceService;
 import com.wisdom.auth.data.api.mapper.model.OauthClientDetails;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.service.BaseClientRemoteService;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.netflix.feign.FeignClient;
 
 import java.util.List;
 

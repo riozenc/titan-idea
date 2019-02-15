@@ -1,6 +1,8 @@
+server:
+  context-path: /auth
 spring:
   application:
-    name: auth-data
+    name: auth-center
   profiles:
     active: dev
   cloud:
@@ -8,7 +10,9 @@ spring:
     #  host: ${CONSUL_HOST:localhost}
     #  port: ${CONSUL_PORT:8500}
     #  discovery:
-    #   prefer-ip-address: true
+    #    prefer-ip-address: true
+    #    health-check-path: ${server.context-path}/health
+    #    tags: management.context-path=${server.context-path}
     config:
       fail-fast: true
       discovery:
@@ -23,6 +27,3 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
-
-#logging:
-#  config: classpath:logback.xml
