@@ -48,15 +48,22 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // 此处修改断言自定义的 MyAuthenticationToken
-        Assert.isInstanceOf(MyAuthenticationToken.class, authentication, this.messages.getMessage("MyAbstractUserDetailsAuthenticationProvider.onlySupports", "Only MyAuthenticationToken is supported"));
+//        Assert.isInstanceOf(MyAuthenticationToken.class, authentication, this.messages.getMessage("MyAbstractUserDetailsAuthenticationProvider.onlySupports", "Only MyAuthenticationToken is supported"));
         String username = authentication.getPrincipal() == null?"NONE_PROVIDED":authentication.getName();
         boolean cacheWasUsed = true;
         UserDetails user = this.userCache.getUserFromCache(username);
+        MyAuthenticationToken myAuthenticationToken=null;
+        if(authentication instanceof UsernamePasswordAuthenticationToken){
+            myAuthenticationToken = new MyAuthenticationToken(authentication.getPrincipal(),authentication.getCredentials(),"user","");
+        }
+        else{
+            myAuthenticationToken = (MyAuthenticationToken)authentication;
+        }
         if(user == null) {
             cacheWasUsed = false;
 
             try {
-                user = this.retrieveUser(username, (MyAuthenticationToken)authentication);
+                user = this.retrieveUser(username, myAuthenticationToken);
             } catch (UsernameNotFoundException var6) {
                 this.logger.debug("User \'" + username + "\' not found");
                 if(this.hideUserNotFoundExceptions) {
@@ -71,16 +78,16 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
 
         try {
             this.preAuthenticationChecks.check(user);
-            this.additionalAuthenticationChecks(user, (MyAuthenticationToken)authentication);
+            this.additionalAuthenticationChecks(user, myAuthenticationToken);
         } catch (AuthenticationException var7) {
             if(!cacheWasUsed) {
                 throw var7;
             }
 
             cacheWasUsed = false;
-            user = this.retrieveUser(username, (MyAuthenticationToken)authentication);
+            user = this.retrieveUser(username, myAuthenticationToken);
             this.preAuthenticationChecks.check(user);
-            this.additionalAuthenticationChecks(user, (MyAuthenticationToken)authentication);
+            this.additionalAuthenticationChecks(user, myAuthenticationToken);
         }
 
         this.postAuthenticationChecks.check(user);
@@ -93,7 +100,7 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
             principalToReturn = user.getUsername();
         }
 
-        return this.createSuccessAuthentication(principalToReturn, authentication, user);
+        return this.createSuccessAuthentication(principalToReturn, myAuthenticationToken, user);
     }
 
     protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
@@ -136,7 +143,7 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
     }
 
     public boolean supports(Class<?> authentication) {
-        return MyAuthenticationToken.class.isAssignableFrom(authentication);
+        return MyAuthenticationToken.class.isAssignableFrom(authentication)||UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
     protected UserDetailsChecker getPreAuthenticationChecks() {

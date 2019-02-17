@@ -1,6 +1,7 @@
 package com.wisdom.auth.provider.config.auth.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Collection;
  * 自定义AbstractAuthenticationToken，
  * 新增属性 type: 登陆类型、mobile：移动端设备id
  */
-public class MyAuthenticationToken extends AbstractAuthenticationToken {
+public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     private static final long serialVersionUID = 110L;
     private final Object principal;
@@ -24,7 +25,7 @@ public class MyAuthenticationToken extends AbstractAuthenticationToken {
      *
      */
     public MyAuthenticationToken(Object principal, Object credentials,String type, String mobile) {
-        super(null);
+        super(principal,credentials);
         this.principal = principal;
         this.credentials = credentials;
         this.type = type;
@@ -42,12 +43,12 @@ public class MyAuthenticationToken extends AbstractAuthenticationToken {
      * @param authorities
      */
     public MyAuthenticationToken(Object principal, Object credentials,String type, String mobile, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+        super(principal,credentials,authorities);
         this.principal = principal;
         this.credentials = credentials;
         this.type = type;
         this.mobile = mobile;
-        super.setAuthenticated(true);
+//        super.setAuthenticated(true);
     }
 
 
