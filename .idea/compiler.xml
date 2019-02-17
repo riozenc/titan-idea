@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="auth-center-api" />
+        <module name="api-gateway" />
         <module name="auth-center-app" />
         <module name="auth-center-data-api" />
         <module name="auth-center-data-app" />
@@ -21,9 +21,8 @@
         <module name="rs" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel>
       <module name="api-gateway" target="1.8" />
-      <module name="auth-center-api" target="1.8" />
       <module name="auth-center-app" target="1.8" />
       <module name="auth-center-data-api" target="1.8" />
       <module name="auth-center-data-app" target="1.8" />
