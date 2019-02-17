@@ -1,6 +1,6 @@
 package org.gateway.config;
 
-import com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration;
+//import com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
@@ -13,9 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.web.cors.reactive.CorsUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -32,12 +29,13 @@ public class RouteConfiguration {
     private static final String ALLOWED_ORIGIN = "*";
     private static final String ALLOWED_Expose = "*";
     private static final String MAX_AGE = "18000L";
-    @Autowired
-    AccessTokenConfiguration accessTokenConfiguration;
+//    @Autowired
+//    AccessTokenConfiguration accessTokenConfiguration;
     @Bean
     public WebFilter corsFilter() {
         return (ServerWebExchange ctx, WebFilterChain chain) -> {
             ServerHttpRequest request = ctx.getRequest();
+            System.out.println("-----------code--------"+request.getQueryParams().getFirst("code"));
             if (CorsUtils.isCorsRequest(request)) {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
