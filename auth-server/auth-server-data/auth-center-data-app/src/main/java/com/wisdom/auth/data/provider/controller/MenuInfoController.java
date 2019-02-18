@@ -60,7 +60,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), accessTokenUtils.getMenuInfo());//
     }
 
-    @PostMapping(value = "/module/tree")
+    @PostMapping(value = "/menu/tree")
     private ResponseData<List<MenuInfo>> getModuleTree(@RequestBody MenuInfo moduleResources) {
         logger.debug("查询模块树");
         List<MenuInfo> list;
@@ -74,7 +74,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
-    @PostMapping("/module/table")
+    @PostMapping("/menu/table")
     @Override
     protected ResponseData<TableData<MenuInfo>> queryRecord(@RequestBody MenuInfoRequest query) {
         logger.debug("查询模块表格");
@@ -95,7 +95,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/module")
+    @PostMapping("/menu")
     @Override
     protected ResponseData<MenuInfo> addRecord(@RequestBody MenuInfo record) {
         logger.debug("添加模块");
@@ -111,7 +111,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/module")
+    @DeleteMapping("/menu")
     @Override
     protected ResponseData<MenuInfo> deleteRecord(@RequestBody List<MenuInfo> record) {
         logger.debug("删除模块");
@@ -125,7 +125,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/module")
+    @PutMapping("/menu")
     @Override
     protected ResponseData<MenuInfo> updateRecord(@RequestBody MenuInfo record) {
         logger.debug("更新模块");
@@ -152,7 +152,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
 //        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
 //    }
 
-    @PostMapping("/module/role")
+    @PostMapping("/menu/role")
     public ResponseData saveRoleResourcesAuth(@RequestBody List<RoleMenuRel> roleModule) {
         logger.debug("保存角色权限");
         try {

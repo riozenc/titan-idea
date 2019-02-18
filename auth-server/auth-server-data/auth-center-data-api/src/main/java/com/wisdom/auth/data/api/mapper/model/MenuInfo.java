@@ -48,10 +48,15 @@ public class MenuInfo implements Serializable {
     private Date updateDate;
 
     /**
-     * 资源子项
+     * 子菜单
      */
     @Transient
     private List<MenuInfo> subModules;
+    /**
+     * 菜单里按钮
+     */
+    @Transient
+    private List<MenuRightInfo> operatings;
 
     /**
      * 资源所属系统
@@ -164,5 +169,13 @@ public class MenuInfo implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public List<MenuRightInfo> getOperatings() {
+        return operatings;
+    }
+
+    public void setOperatings(List<MenuRightInfo> operatings) {
+        this.operatings = operatings;
     }
 }

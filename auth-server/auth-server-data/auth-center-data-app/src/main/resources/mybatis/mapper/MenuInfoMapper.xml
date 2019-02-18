@@ -18,6 +18,13 @@
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
 
+  <resultMap id="menuRightMap" type="com.wisdom.auth.data.api.mapper.model.MenuRightInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_ID" property="menuId" jdbcType="INTEGER" />
+    <result column="RIGHT_NAME" property="rightName" jdbcType="VARCHAR" />
+    <result column="RIGHT_DESCRIBE" property="rightDescribe" jdbcType="INTEGER" />
+  </resultMap>
+
   <resultMap id="menuMap" type="com.wisdom.auth.data.api.mapper.model.MenuInfo">
     <!--
       WARNING - @mbg.generated
@@ -34,6 +41,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
     <collection  column="{ID=ID,USER_ID=USER_ID}" property="subModules" select="selectMenusByParentIdWithOperating" />
+    <collection  column="{MENU_ID=ID,USER_ID=USER_ID}" property="operatings" select="selectOperatingsByMenuId" />
   </resultMap>
 
   <resultMap id="rolesMap" type="com.wisdom.auth.data.api.mapper.model.MenuInfo">
@@ -122,10 +130,10 @@
   <select id="selectModuleTree" resultMap="moduleTree">
     SELECT * FROM MENU_INFO
     <where>
-      <if test="id == 'root'">
+      <if test="id == 'root'.toString()">
         PARENT_ID =0 AND SYSTEM_ID = #{systemId}
       </if>
-      <if test="id != 'root'">
+      <if test="id != 'root'.toString()">
         PARENT_ID = #{id}
       </if>
     </where>
@@ -146,4 +154,11 @@
     WHERE  PARENT_ID = #{ID}
   </select>
 
+  <select id="selectOperatingsByMenuId" resultMap="menuRightMap">
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID
+     FROM USER_ROLE_REL bur
+      LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
+      LEFT JOIN MENU_RIGHT_INFO bmr ON brm.MENU_ID = bmr.MENU_ID
+    WHERE bur.USER_ID = #{USER_ID} AND bmr.MENU_ID = #{MENU_ID}
+  </select>
 </mapper>

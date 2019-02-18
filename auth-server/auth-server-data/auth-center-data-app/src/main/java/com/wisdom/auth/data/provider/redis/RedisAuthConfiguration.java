@@ -1,5 +1,6 @@
 package com.wisdom.auth.data.provider.redis;
 
+import com.wisdom.auth.data.api.mapper.model.DeptInfo;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,15 @@ public class RedisAuthConfiguration {
     @Bean
     public RedisTemplate<String, MenuInfo> baseModelTemplate() {
         RedisTemplate<String, MenuInfo> template = new RedisTemplate();
+        template.setConnectionFactory(con);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new RedisObjectSerializer());
+        return template;
+    }
+
+    @Bean
+    public RedisTemplate<String, DeptInfo> baseDeptTemplate() {
+        RedisTemplate<String, DeptInfo> template = new RedisTemplate();
         template.setConnectionFactory(con);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new RedisObjectSerializer());

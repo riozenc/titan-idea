@@ -22,7 +22,7 @@ public class TokenController {
 
     @RequestMapping("/extractToken")
     public ResponseData extract(String token) {
-        if (!token.startsWith("Bearer")){
+        if (!token.toLowerCase().startsWith("Bearer".toLowerCase())){
             return new ResponseData<>(ResponseCode.TOKEN_ERROR.getCode(), ResponseCode.TOKEN_ERROR.getMessage());
         }
         String authHeaderValue = token.substring("Bearer".length()).trim();

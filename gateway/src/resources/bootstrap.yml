@@ -16,11 +16,6 @@ spring:
       filters:
       - StripPrefix=2
       - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-uri: http://${AUTH_CENTER_HOST:localhost}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
 eureka:
   client:
     serviceUrl:

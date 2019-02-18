@@ -50,23 +50,23 @@ public class CorsConfig {
 					response.setStatusCode(HttpStatus.OK);
 					return Mono.empty();
 				}
-				else if(request.getHeaders().containsKey("Authorization")){
-					List<String> list = request.getHeaders().get("Authorization");
-					String value = "";
-					for (int i=0; i<list.size(); i++){
-						value = list.get(i);
-						if(value.toLowerCase().startsWith("Bearer".toLowerCase())){
-							break;
-						}
-					}
-					if(value.isEmpty()){
-						response.setStatusCode(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
-						return Mono.empty();
-					}
-					String userInfo = restTemplate.getForObject("http://AUTH-CENTER/auth/extractToken?token="+value, String.class);
-
-					System.out.println(userInfo);
-				}
+//				else if(request.getHeaders().containsKey("Authorization")){
+//					List<String> list = request.getHeaders().get("Authorization");
+//					String value = "";
+//					for (int i=0; i<list.size(); i++){
+//						value = list.get(i);
+//						if(value.toLowerCase().startsWith("Bearer".toLowerCase())){
+//							break;
+//						}
+//					}
+//					if(value.isEmpty()){
+//						response.setStatusCode(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
+//						return Mono.empty();
+//					}
+//					String userInfo = restTemplate.getForObject("http://AUTH-CENTER/auth/extractToken?token="+value, String.class);
+//
+//					System.out.println(userInfo);
+//				}
 			}
 			return chain.filter(ctx);
 		};

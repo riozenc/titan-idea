@@ -175,7 +175,7 @@ export default {
       self.$refs.moduleAddForm.validate(result => {
         self.addModuleLoading = true
         if (result) {
-          self.$http.post(`${DataMainApi}/module`, self.form)
+          self.$http.post(`${DataMainApi}/menu`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.module.SAVE_MODULE_SUCCESS_NOTIFY'))

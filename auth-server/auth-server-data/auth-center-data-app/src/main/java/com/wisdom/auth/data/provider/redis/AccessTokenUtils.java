@@ -3,6 +3,7 @@ package com.wisdom.auth.data.provider.redis;
 import com.wisdom.auth.common.constant.Constant;
 import com.wisdom.auth.autoconfigure.config.AccessTokenConfiguration;
 import com.wisdom.auth.common.utils.JsonUtils;
+import com.wisdom.auth.data.api.mapper.model.DeptInfo;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
@@ -36,7 +37,8 @@ public class AccessTokenUtils {
 
     @Autowired
     private RedisTemplate<String, MenuInfo> baseModelTemplate;
-
+    @Autowired
+    private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
     /**
      * 从token获取用户信息
      * @return
@@ -68,6 +70,12 @@ public class AccessTokenUtils {
         String key = getUserInfo().getId().toString() + "-menu";
         long size = baseModelTemplate.opsForList().size(key);
         return baseModelTemplate.opsForList().range(key, 0, size);
+    }
+
+    public List<DeptInfo> getDeptInfo(){
+        String key = getUserInfo().getId().toString() + "-dept";
+        long size = deptInfoRedisTemplate.opsForList().size(key);
+        return deptInfoRedisTemplate.opsForList().range(key, 0, size);
     }
 
     protected String extractHeaderToken(HttpServletRequest request) {

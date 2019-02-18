@@ -15,6 +15,7 @@
         <module name="auth-spring-boot-starter" />
         <module name="common" />
         <module name="config-server" />
+        <module name="db-mybatis-generator" />
         <module name="db-spring-boot-autoconfigure" />
         <module name="db-spring-boot-starter" />
         <module name="gateway" />
@@ -34,6 +35,7 @@
       <module name="auth-spring-boot-starter" target="1.8" />
       <module name="common" target="1.8" />
       <module name="config-server" target="1.8" />
+      <module name="db-mybatis-generator" target="1.8" />
       <module name="db-mybatis-pagehelper" target="1.8" />
       <module name="db-spring-boot-autoconfigure" target="1.8" />
       <module name="db-spring-boot-starter" target="1.8" />

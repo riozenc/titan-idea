@@ -113,7 +113,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
 
     @DeleteMapping("/user")
     @Override
-    protected ResponseData<UserInfo> deleteRecord(@RequestBody List<UserInfo> record) {
+        protected ResponseData<UserInfo> deleteRecord(@RequestBody List<UserInfo> record) {
         logger.debug("删除用户");
         try {
             userInfoService.deleteBatch(record);

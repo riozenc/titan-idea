@@ -17,6 +17,7 @@
     <modules>
         <module>db-spring-boot-autoconfigure</module>
         <module>db-spring-boot-starter</module>
+        <module>db-mybatis-generator</module>
     </modules>
 
     <properties>

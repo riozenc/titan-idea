@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 /**
- * Created by fp295 on 2018/5/18.
+ * Created by yxs on 2019/1/16.
  */
 public interface BaseClientRemoteService {
 

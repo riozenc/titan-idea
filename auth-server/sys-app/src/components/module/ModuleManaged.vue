@@ -294,7 +294,7 @@ export default {
       var self = this
       if (this.selectData.length > 0) {
         this.deleteDialogLoading = true
-        this.$http.delete(`${DataMainApi}/module`, {data: self.selectData})
+        this.$http.delete(`${DataMainApi}/menu`, {data: self.selectData})
           .then(res => {
             if (res.data.code === Status.success) {
               self.$notify.success(self.$t('constant.module.DELETE_MODULE_SUCCESS_NOTIFY'))

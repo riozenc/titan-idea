@@ -3,7 +3,7 @@ security:
     /css/**,/js/**,/favicon.ico,/webjars/**,/images/**,/static/**,
     /hystrix.stream/**,/info,/error,/health,/env,/metrics,/trace,/dump,
     /jolokia,/configprops,/activiti,/logfile,/refresh,/flyway,/liquibase,/loggers,/druid/**,
-    /oauth/deleteToken, /backReferer
+    /oauth/deleteToken, /backReferer,/extractToken
 server:
   port: 18001
 spring:
