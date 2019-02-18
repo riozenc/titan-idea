@@ -63,7 +63,7 @@ public class CorsConfig {
 						response.setStatusCode(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
 						return Mono.empty();
 					}
-					String userInfo = restTemplate.getForObject("http://AUTH-CENTER/auth/extractToken", String.class,value);
+					String userInfo = restTemplate.getForObject("http://AUTH-CENTER/auth/extractToken?token="+value, String.class);
 
 					System.out.println(userInfo);
 				}

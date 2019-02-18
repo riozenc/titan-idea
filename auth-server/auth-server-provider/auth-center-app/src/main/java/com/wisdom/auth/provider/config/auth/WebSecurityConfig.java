@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(getMyLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 配置登陆页/login并允许访问
                 .formLogin().loginPage("/login").permitAll()
+
                 // 登出页
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/backReferer")
                 // 其余所有请求全部需要鉴权认证

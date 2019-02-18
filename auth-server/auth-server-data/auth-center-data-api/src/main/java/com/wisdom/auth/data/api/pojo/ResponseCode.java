@@ -4,7 +4,8 @@ public enum ResponseCode {
 
     SUCCESS(1000, "success."),
     ERROR(1001, "error."),
-    PARA_ERROR(1002, "parameters error.");
+    PARA_ERROR(1002, "parameters error."),
+    TOKEN_ERROR(1003, "token error.");
 
     ResponseCode(Integer code, String message) {
         this.code = code;
