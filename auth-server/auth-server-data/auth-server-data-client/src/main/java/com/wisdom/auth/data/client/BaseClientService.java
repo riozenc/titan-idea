@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by yxs on 2019/1/9.
  */
-@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = BaseClientService.HystrixClientFallback.class)
+@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = BaseClientService.HystrixClientFallback.class,path = "sys-data")
 public interface BaseClientService extends BaseClientRemoteService {
 
     class HystrixClientFallback implements BaseClientService {

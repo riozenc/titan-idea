@@ -9,19 +9,19 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "DEPT_INFO")
-public class DeptInfo implements Serializable {
+public class DeptInfo implements Serializable,Cloneable {
     @Id
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "PARENT_ID")
-    private Long parentId;
+    private Integer parentId;
 
     @Column(name = "DEPT_ID")
     private String deptId;
 
     @Column(name = "DEPT_NAME")
-    private String deptName;
+    private String title;
 
     @Column(name = "DEPT_TYPE")
     private Integer deptType;
@@ -44,34 +44,34 @@ public class DeptInfo implements Serializable {
      * 下级部门
      */
     @Transient
-    private List<DeptInfo> subDepts;
+    private List<DeptInfo> children;
     private static final long serialVersionUID = 1L;
 
     /**
      * @return the value of DEPT_INFO.ID
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id the value for DEPT_INFO.ID
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     /**
      * @return the value of DEPT_INFO.PARENT_ID
      */
-    public Long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
     /**
      * @param parentId the value for DEPT_INFO.PARENT_ID
      */
-    public void setParentId(Long parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -92,15 +92,15 @@ public class DeptInfo implements Serializable {
     /**
      * @return the value of DEPT_INFO.DEPT_NAME
      */
-    public String getDeptName() {
-        return deptName;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * @param deptName the value for DEPT_INFO.DEPT_NAME
+     * @param title the value for DEPT_INFO.DEPT_NAME
      */
-    public void setDeptName(String deptName) {
-        this.deptName = deptName == null ? null : deptName.trim();
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     /**
@@ -181,12 +181,12 @@ public class DeptInfo implements Serializable {
         this.sortNo = sortNo;
     }
 
-    public List<DeptInfo> getSubDepts() {
-        return subDepts;
+    public List<DeptInfo> getChildren() {
+        return children;
     }
 
-    public void setSubDepts(List<DeptInfo> subDepts) {
-        this.subDepts = subDepts;
+    public void setChildren(List<DeptInfo> children) {
+        this.children = children;
     }
 
     @Override
@@ -198,7 +198,7 @@ public class DeptInfo implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", parentId=").append(parentId);
         sb.append(", deptId=").append(deptId);
-        sb.append(", deptName=").append(deptName);
+        sb.append(", title=").append(title);
         sb.append(", deptType=").append(deptType);
         sb.append(", createDate=").append(createDate);
         sb.append(", closeDate=").append(closeDate);
@@ -207,5 +207,14 @@ public class DeptInfo implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Object clone(){
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            return null;
+        }
     }
 }

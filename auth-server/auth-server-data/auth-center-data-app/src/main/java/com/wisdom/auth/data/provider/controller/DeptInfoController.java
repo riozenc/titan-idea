@@ -6,6 +6,7 @@ import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
 import com.wisdom.auth.data.api.mapper.model.DeptInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleDeptRel;
+import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.DeptInfoRequest;
 import com.wisdom.auth.data.api.service.DeptInfoRemoteService;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,9 +38,6 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
     @Autowired
     private AccessTokenUtils accessTokenUtils;
 
-    @Autowired
-    private RoleDeptRelService roleDeptRelService;
-
     @Override
     public ResponseData<List<DeptInfo>> getDeptsByUserId(@PathVariable("userId") Integer userId) {
         logger.debug("根据用户查询组织机构");
@@ -53,26 +52,54 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
-    @GetMapping("/dept")
+    /**
+     * 从redis中查询当前用户拥有的组织机构，返回树结构
+     * @return
+     */
+    @GetMapping("/dept/auth/tree")
     public ResponseData<List<DeptInfo>> getCurrentDept() {
         System.out.println("--------------/menu----------provider1-------------------------------"+accessTokenUtils.getDeptInfo());
         logger.debug("查询当前用户组织机构");
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), accessTokenUtils.getDeptInfo());//
     }
 
-//    @PostMapping(value = "/menu/tree")
-//    private ResponseData<List<DeptInfo>> getModuleTree(@RequestBody DeptInfo moduleResources) {
-//        logger.debug("查询模块树");
-//        List<DeptInfo> list;
-//        try {
-//            list = deptInfoService.getModuleTree(moduleResources.getId(), moduleResources.getSystemId());
-//        } catch (Exception e) {
-//            logger.error("查询模块树异常" + e.getMessage());
-//            e.printStackTrace();
-//            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
-//        }
-//        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
-//    }
+    /**
+     * 从redis中查询当前用户拥有的组织机构，返回列表结构
+     * @return
+     */
+    @GetMapping("/dept/auth/table")
+    public ResponseData<List<DeptInfo>> getCurrentDeptList() {
+        logger.debug("查询当前用户组织机构列表");
+        List<DeptInfo> list =listHierarchy(accessTokenUtils.getDeptInfo());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    private List<DeptInfo> listHierarchy(List<DeptInfo> parent){
+        List<DeptInfo> result = new ArrayList<DeptInfo>();
+        for (DeptInfo deptInfo:parent){
+            DeptInfo temp = (DeptInfo)deptInfo.clone();
+            temp.setChildren(null);
+            result.add(temp);
+            if(deptInfo.getChildren()!=null){
+                result.addAll(listHierarchy(deptInfo.getChildren()));
+            }
+        }
+        return result;
+    }
+
+    @PostMapping(value = "/dept/tree")
+    private ResponseData<List<DeptInfo>> getDeptTree(@RequestBody DeptInfo moduleResources) {
+        logger.debug("查询组织机构树");
+        List<DeptInfo> list;
+        try {
+            list = deptInfoService.selectDeptTree(moduleResources.getId());
+        } catch (Exception e) {
+            logger.error("查询组织机构树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
 
     @PostMapping("/dept/table")
     @Override
@@ -81,10 +108,25 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         Example example = new Example(DeptInfo.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if (query.getParentId()!=null&&query.getParentId()>0) {
+        if (query!=null&&query.getParentId()!=null&&query.getParentId()>0) {
             criteria.andEqualTo("parentId", query.getParentId());
         } else {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            UserInfo userInfo = accessTokenUtils.getUserInfo();
+            if("sysadmin".equals(userInfo.getUserId())){
+                criteria.andEqualTo("parentId", 0);
+            }
+            else {
+                List<DeptInfo> list = accessTokenUtils.getDeptInfo();
+                List<DeptInfo> result = new ArrayList<DeptInfo>();
+                for (int i = (query.getPageNum() - 1) * query.getPageSize(); i < Math.min(list.size(), query.getPageSize()); i++) {
+                    result.add(list.get(i));
+                }
+                PageInfo<DeptInfo> pageInfo = new PageInfo<DeptInfo>();
+                pageInfo.setPageNum(query.getPageNum());
+                pageInfo.setPageSize(query.getPageSize());
+                pageInfo.setList(result);
+                return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
+            }
         }
         example.orderBy("sort");
         PageInfo<DeptInfo> pageInfo = deptInfoService.selectByExampleList(example, query.getPageNum(), query.getPageSize());
@@ -92,7 +134,7 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/dept")
+    @PostMapping("/dept/add")
     @Override
     protected ResponseData<DeptInfo> addRecord(@RequestBody DeptInfo record) {
         logger.debug("添加组织机构");
@@ -108,7 +150,7 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/dept")
+    @PostMapping("/dept/delete")
     @Override
     protected ResponseData<DeptInfo> deleteRecord(@RequestBody List<DeptInfo> record) {
         logger.debug("删除组织机构");
@@ -122,7 +164,7 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/dept")
+    @PostMapping("/dept/update")
     @Override
     protected ResponseData<DeptInfo> updateRecord(@RequestBody DeptInfo record) {
         logger.debug("更新组织机构");
@@ -137,29 +179,16 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-//    @GetMapping("/module/validate/{moduleCode}")
-//    public ResponseData<MenuInfo> validateModuleCode(@PathVariable("moduleCode") String moduleCode) {
-//        logger.debug("校验模块编码是否存在");
-//        MenuInfo menuInfo = new MenuInfo();
-//        menuInfo.setModuleCode(moduleCode);
-//        menuInfo = deptInfoService.selectOne(menuInfo);
-//        if(menuInfo == null) {
-//            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
-//        }
-//        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
-//    }
-
-    @PostMapping("/dept/role")
-    public ResponseData saveRoleDeptAuth(@RequestBody List<RoleDeptRel> roleDept) {
-        logger.debug("保存角色权限");
-        try {
-            roleDeptRelService.saveRoleDept(roleDept);
-        } catch (RuntimeException e) {
-            logger.error("保存角色权限失败" + e.getMessage());
-            e.printStackTrace();
-            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+    @GetMapping("/dept/validate/{deptId}")
+    public ResponseData<DeptInfo> validateDeptCode(@PathVariable("deptId") String deptId) {
+        logger.debug("校验组织机构编码是否存在");
+        DeptInfo deptInfo = new DeptInfo();
+        deptInfo.setDeptId(deptId);
+        deptInfo = deptInfoService.selectOne(deptInfo);
+        if(deptInfo == null) {
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
         }
-
-        return new ResponseData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
+
 }

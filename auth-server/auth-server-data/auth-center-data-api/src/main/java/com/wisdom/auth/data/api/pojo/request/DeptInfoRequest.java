@@ -15,16 +15,16 @@ import java.util.List;
 public class DeptInfoRequest extends BaseRequestPojo implements Serializable {
     @Id
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "PARENT_ID")
-    private Long parentId;
+    private Integer parentId;
 
     @Column(name = "DEPT_ID")
     private String deptId;
 
     @Column(name = "DEPT_NAME")
-    private String deptName;
+    private String title;
 
     @Column(name = "DEPT_TYPE")
     private Integer deptType;
@@ -47,21 +47,21 @@ public class DeptInfoRequest extends BaseRequestPojo implements Serializable {
      * 下级部门
      */
     @Transient
-    private List<DeptInfo> subDepts;
+    private List<DeptInfo> children;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -73,12 +73,12 @@ public class DeptInfoRequest extends BaseRequestPojo implements Serializable {
         this.deptId = deptId;
     }
 
-    public String getDeptName() {
-        return deptName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getDeptType() {
@@ -129,11 +129,11 @@ public class DeptInfoRequest extends BaseRequestPojo implements Serializable {
         this.sortNo = sortNo;
     }
 
-    public List<DeptInfo> getSubDepts() {
-        return subDepts;
+    public List<DeptInfo> getChildren() {
+        return children;
     }
 
-    public void setSubDepts(List<DeptInfo> subDepts) {
-        this.subDepts = subDepts;
+    public void setChildren(List<DeptInfo> children) {
+        this.children = children;
     }
 }

@@ -1,3 +1,5 @@
+server:
+  context-path: /auth-data
 spring:
   application:
     name: auth-data

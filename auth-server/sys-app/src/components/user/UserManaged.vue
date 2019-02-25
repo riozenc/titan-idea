@@ -236,7 +236,7 @@ export default {
       var self = this
       if (this.selectData.length > 0) {
         this.deleteDialogLoading = true
-        this.$http.delete(DataMainApi + '/user', {data: self.selectData})
+        this.$http.post(DataMainApi + '/user/delete', {data: self.selectData})
           .then(res => {
             if (res.data.code === Status.success) {
               self.$notify.success(self.$t('constant.user.DELETE_USER_SUCCESS_NOTIFY'))

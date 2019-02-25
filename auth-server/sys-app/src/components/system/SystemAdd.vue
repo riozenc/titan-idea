@@ -90,7 +90,7 @@ export default {
       self.$refs.systemAddForm.validate(result => {
         self.addSystemLoading = true
         if (result) {
-          self.$http.post(`${DataMainApi}/system`, self.form)
+          self.$http.post(`${DataMainApi}/system/add`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.system.SAVE_SYSTEM_SUCCESS_NOTIFY'))

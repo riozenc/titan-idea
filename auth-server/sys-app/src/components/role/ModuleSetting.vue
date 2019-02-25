@@ -42,7 +42,7 @@ export default {
     },
     loadTree () {
       var self = this
-      self.$http.get(`${DataMainApi}/system/module`)
+      self.$http.get(`${DataMainApi}/system/menu`)
         .then(res => {
           if (res.data.code === Status.success) {
             self.modules = res.data.data
@@ -56,7 +56,7 @@ export default {
       self.$http.get(`${DataMainApi}/role/auth/${self.roleId}`)
         .then(res => {
           if (res.data.code === Status.success) {
-            self.$refs.tree.setCheckedKeys(res.data.data.map(item => item.moduleId))
+            self.$refs.tree.setCheckedKeys(res.data.data.map(item => item.menuId))
           }
         })
     },
@@ -68,10 +68,10 @@ export default {
       const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)) }
       // difference([1,2,3], [1,2]) -> [3]
       // 提交过滤掉系统节点的key
-      self.$http.post(`${DataMainApi}/module/role`,
+      self.$http.post(`${DataMainApi}/menu/role/save`,
         difference(keys, self.systemIds).map(item => ({
           roleId: self.roleId,
-          moduleId: item
+          menuId: item
         })))
         .then(res => {
           if (res.data.code === Status.success) {

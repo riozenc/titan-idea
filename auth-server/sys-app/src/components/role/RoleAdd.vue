@@ -72,7 +72,7 @@ export default {
       self.$refs.roleAddForm.validate(result => {
         self.addRoleLoading = true
         if (result) {
-          self.$http.post(`${DataMainApi}/role`, self.form)
+          self.$http.post(`${DataMainApi}/role/add`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.role.SAVE_ROLE_SUCCESS_NOTIFY'))

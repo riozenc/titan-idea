@@ -84,7 +84,7 @@ export default {
       self.$refs.systemEditForm.validate(result => {
         self.editSystemLoading = true
         if (result) {
-          self.$http.put(`${DataMainApi}/system`, self.form)
+          self.$http.post(`${DataMainApi}/system/update`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.system.SAVE_SYSTEM_SUCCESS_NOTIFY'))

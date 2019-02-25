@@ -12,7 +12,7 @@ import java.util.Date;
 public class SystemInfoRequest extends BaseRequestPojo implements Serializable {
     @Id
     @Column(name = "ID")
-    private String id;
+    private Integer id;
 
     @Column(name = "SYSTEM_NAME")
     private String systemName;
@@ -38,14 +38,14 @@ public class SystemInfoRequest extends BaseRequestPojo implements Serializable {
     /**
      * @return ID
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

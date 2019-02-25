@@ -16,6 +16,9 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "MENU_CODE")
+    private String menuCode;
+
     @Column(name = "MENU_NAME")
     private String menuName;
 
@@ -38,7 +41,7 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
     private Integer sortNo;
 
     @Column(name = "SYSTEM_ID")
-    private String systemId;
+    private Integer systemId;
 
     @Column(name = "STATUS")
     private Integer status;
@@ -117,11 +120,11 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
         this.sortNo = sortNo;
     }
 
-    public String getSystemId() {
+    public Integer getSystemId() {
         return systemId;
     }
 
-    public void setSystemId(String systemId) {
+    public void setSystemId(Integer systemId) {
         this.systemId = systemId;
     }
 
@@ -166,5 +169,13 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
     }
 }

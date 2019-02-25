@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by yxs on 2019/1/17.
  */
-@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = DeptInfoService.HystrixClientFallback.class)
+@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = DeptInfoService.HystrixClientFallback.class,path = "auth-data")
 public interface DeptInfoService extends DeptInfoRemoteService {
 
     class HystrixClientFallback implements DeptInfoService {

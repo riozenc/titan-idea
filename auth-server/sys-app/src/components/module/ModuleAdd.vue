@@ -9,31 +9,31 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('constant.module.PARENT_MODULE')">
-              {{ moduleId ? moduleName : ''}}
+              {{ menuId ? menuName : ''}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item prop="moduleCode" :label="$t('constant.module.MODULE_CODE')">
-              <el-input v-model="form.moduleCode"></el-input>
+            <el-form-item prop="menuCode" :label="$t('constant.module.MODULE_CODE')">
+              <el-input v-model="form.menuCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="moduleName" :label="$t('constant.module.MODULE_NAME')">
-              <el-input v-model="form.moduleName"></el-input>
+            <el-form-item prop="menuName" :label="$t('constant.module.MODULE_NAME')">
+              <el-input v-model="form.menuName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item prop="modulePath" :label="$t('constant.module.MODULE_PATH')">
-              <el-input v-model="form.modulePath"></el-input>
+            <el-form-item prop="menuUrl" :label="$t('constant.module.MODULE_PATH')">
+              <el-input v-model="form.menuUrl"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('constant.module.ICON')">
-              <el-input v-model="form.moduleIcon"></el-input>
+              <el-input v-model="form.imgSrc"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -41,7 +41,7 @@
            <el-col :span="12">
             <el-form-item :label="$t('constant.module.ACTIVE')">
               <el-switch
-                v-model="form.active"
+                v-model="form.status"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
                 :active-text="$t('constant.TRUE')"
@@ -53,7 +53,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('constant.module.SORT')">
-              <el-input-number v-model="form.sort" :min="0" :max="200"></el-input-number>
+              <el-input-number v-model="form.sortNo" :min="0" :max="200"></el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
@@ -61,17 +61,18 @@
           <el-col :span="12">
             <el-form-item :label="$t('constant.module.IS_MENU')">
               <el-switch
-                v-model="form.isOperating"
+                v-model="form.isLeaf"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
                 :active-text="$t('constant.TRUE')"
                 :inactive-text="$t('constant.FALSE')"
-                :active-value="0"
-                :inactive-value="1">
+                :active-value="1"
+                :inactive-value="0">
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-show="form.isOperating">
+          <!--
+          <el-col :span="12" v-show="form.isLeaf">
             <el-form-item :label="$t('constant.module.HTTP_METHOD')">
               <el-select v-model="form.httpMethod" :placeholder="$t('constant.module.SELECT')">
                 <el-option
@@ -83,6 +84,7 @@
               </el-select>
             </el-form-item>
           </el-col>
+          -->
         </el-row>
    </el-form>
     <div slot="footer" class="dialog-footer">
@@ -98,7 +100,7 @@ export default {
   data () {
     var self = this
     var validateModuleCode = (rule, value, callback) => {
-      self.$http.get(`${DataMainApi}/module/validate/${self.form.moduleCode}`)
+      self.$http.get(`${DataMainApi}/menu/validate/${self.form.menuCode}`)
         .then(res => {
           if (res.data.code === Status.success) {
             callback()
@@ -109,30 +111,29 @@ export default {
     }
     return {
       form: {
-        moduleCode: null,
-        moduleName: null,
-        modulePath: null,
+        menuCode: null,
+        menuName: null,
+        menuUrl: null,
         parentId: null,
-        moduleIcon: null,
-        httpMethod: null,
-        isOperating: 0,
-        sort: 0,
+        imgSrc: null,
+        isLeaf: 0,
+        sortNo: 0,
         systemId: null,
-        active: 1
+        status: 1
       },
       // 表单验证
       formRules: {
-        moduleCode: [
-          { required: true, message: self.$t('constant.module.MODULE_CODE_PLACEHOLDER'), trigger: 'blur' },
+        menuCode: [
+          { required: false, message: self.$t('constant.module.MODULE_CODE_PLACEHOLDER'), trigger: 'blur' },
           { min: 3, max: 32, message: self.$t('constant.module.THREE_TO_32'), trigger: 'blur' },
           { validator: validateModuleCode, trigger: 'blur' }
         ],
-        moduleName: [
+        menuName: [
           { required: true, message: self.$t('constant.module.MODULE_NAME_PLACEHOLDER'), trigger: 'blur' },
           { min: 3, max: 32, message: self.$t('constant.module.THREE_TO_32'), trigger: 'blur' }
         ],
-        modulePath: [
-          { required: true, message: self.$t('constant.module.MODULE_PATH_PLACEHOLDER'), trigger: 'blur' },
+        menuUrl: [
+          { required: false, message: self.$t('constant.module.MODULE_PATH_PLACEHOLDER'), trigger: 'blur' },
           { min: 3, max: 100, message: self.$t('constant.module.THREE_TO_100'), trigger: 'blur' }
         ]
       },
@@ -141,8 +142,8 @@ export default {
       options: ['GET', 'POST', 'PUT', 'DELETE'],
       systemId: null,
       systemName: null,
-      moduleId: null,
-      moduleName: null
+      menuId: null,
+      menuName: null
     }
   },
   methods: {
@@ -152,22 +153,21 @@ export default {
         // 重置表单
         self.$refs.moduleAddForm.resetFields()
       }
-      this.form.moduleCode = null
-      this.form.moduleName = null
-      this.form.modulePath = null
-      this.form.parentId = data.moduleId
-      this.form.moduleIcon = null
-      this.form.httpMethod = null
-      this.form.isOperating = 0
-      this.form.sort = 0
+      this.form.menuCode = null
+      this.form.menuName = null
+      this.form.menuUrl = null
+      this.form.parentId = data.menuId
+      this.form.imgSrc = null
+      this.form.isLeaf = 0
+      this.form.sortNo = 0
       this.form.systemId = data.systemId
-      this.form.active = 1
+      this.form.status = 1
       this.addModuleShow = true
 
       this.systemId = data.systemId
       this.systemName = data.systemName
-      this.moduleId = data.moduleId
-      this.moduleName = data.moduleName
+      this.menuId = data.menuId
+      this.menuName = data.menuName
     },
     saveModule () {
       var self = this
@@ -175,7 +175,7 @@ export default {
       self.$refs.moduleAddForm.validate(result => {
         self.addModuleLoading = true
         if (result) {
-          self.$http.post(`${DataMainApi}/menu`, self.form)
+          self.$http.post(`${DataMainApi}/menu/add`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.module.SAVE_MODULE_SUCCESS_NOTIFY'))

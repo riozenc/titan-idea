@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * Created by yxs on 2019/1/9.
  */
-@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = UserInfoService.HystrixClientFallback.class)
+@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = UserInfoService.HystrixClientFallback.class,path = "/auth-data")
 public interface UserInfoService extends UserInfoRemoteService {
     @PostMapping(value = "/user")
     ResponseData<UserInfo> addRecord(@RequestBody UserInfo record);

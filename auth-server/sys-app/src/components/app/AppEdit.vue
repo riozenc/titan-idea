@@ -141,7 +141,7 @@ export default {
         self.editAppLoading = true
         if (result) {
           self.form.authorizedGrantTypes = self.computedGrantTypes
-          self.$http.put(`${DataMainApi}/client`, self.form)
+          self.$http.post(`${DataMainApi}/client/update`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.client.SAVE_CLIENT_SUCCESS_NOTIFY'))

@@ -81,7 +81,7 @@
       <el-table-column
         fixed="right"
         :label="$t('constant.OPERATE')"
-        width="300">
+        width="80">
         <template slot-scope="scope" >
           <el-button size="small" @click="showEditDialog(scope.row)">{{$t('button.EDIT')}}</el-button>
         </template>
@@ -197,7 +197,7 @@ export default {
       var self = this
       if (this.selectData.length > 0) {
         this.deleteDialogLoading = true
-        this.$http.delete(`${DataMainApi}/client`, {data: self.selectData})
+        this.$http.post(`${DataMainApi}/client/delete`, {data: self.selectData})
           .then(res => {
             if (res.data.code === Status.success) {
               self.$notify.success(self.$t('constant.client.DELETE_CLIENT_SUCCESS_NOTIFY'))

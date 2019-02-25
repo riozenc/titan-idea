@@ -7,7 +7,7 @@
     -->
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
-    <result column="MENU_ID" property="moduleId" jdbcType="INTEGER" />
+    <result column="MENU_ID" property="menuId" jdbcType="INTEGER" />
     <result column="BUTTON" property="button" jdbcType="INTEGER" />
     <result column="OPERATOR_ID" property="operatorId" jdbcType="INTEGER" />
   </resultMap>

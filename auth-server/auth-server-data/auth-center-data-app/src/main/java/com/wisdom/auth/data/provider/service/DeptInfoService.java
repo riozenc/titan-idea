@@ -23,4 +23,12 @@ public class DeptInfoService extends BaseService<DeptInfo> {
         return ((DeptInfoMapper)mapper).getDeptsByUserId(userId);
     }
 
+    /**
+     * 根据父节点查询组织机构
+     * @param id
+     * @return
+     */
+    public List<DeptInfo> selectDeptTree(Integer id) {
+        return ((DeptInfoMapper)mapper).selectDeptTree(id);
+    }
 }

@@ -1,4 +1,4 @@
-export const DataMainApi = '/api/sys-data'
+export const DataMainApi = '/auth-data'
 export const Status = {
   success: 1000
 }

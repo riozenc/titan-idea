@@ -6,13 +6,14 @@
       WARNING - @mbggenerated
     -->
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
     <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
     <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
     <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
     <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
     <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
-    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
@@ -30,16 +31,18 @@
       WARNING - @mbg.generated
     -->
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
     <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
     <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
     <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
     <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
     <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
-    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="BUTTON" property="button" jdbcType="INTEGER" />
     <collection  column="{ID=ID,USER_ID=USER_ID}" property="subModules" select="selectMenusByParentIdWithOperating" />
     <collection  column="{MENU_ID=ID,USER_ID=USER_ID}" property="operatings" select="selectOperatingsByMenuId" />
   </resultMap>
@@ -49,13 +52,14 @@
       WARNING - @mbg.generated
     -->
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
     <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
     <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
     <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
     <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
     <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
-    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
@@ -68,13 +72,14 @@
       WARNING - @mbg.generated
     -->
     <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
     <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
     <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
     <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR" />
     <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER" />
     <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
-    <result column="SYSTEM_ID" property="systemId" jdbcType="VARCHAR" />
+    <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
@@ -86,23 +91,26 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="moduleName" jdbcType="VARCHAR" />
     <collection  column="{ID=ID}" property="subModules"
                  select="selectModuleAndSystemByParentId" />
   </resultMap>
 
   <select id="getMenusByUserId" resultMap="menuMap">
-    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID,brm.BUTTON as BUTTON
      FROM USER_ROLE_REL bur
      LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
      LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
      LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
      WHERE bur.USER_ID = #{userId} AND bmr.PARENT_ID =0 AND bs.ACTIVE =1
+    <if test="userId == 1">
+      AND SYSTEM_ID = 1
+    </if>
   </select>
 
   <select id="selectMenusByParentIdWithOperating" resultMap="menuMap">
-    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID
+    SELECT DISTINCT bmr.*, bur.USER_ID as USER_ID,brm.BUTTON as BUTTON
      FROM USER_ROLE_REL bur
       LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
       LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
@@ -130,10 +138,10 @@
   <select id="selectModuleTree" resultMap="moduleTree">
     SELECT * FROM MENU_INFO
     <where>
-      <if test="id == 'root'.toString()">
+      <if test="id == 0">
         PARENT_ID =0 AND SYSTEM_ID = #{systemId}
       </if>
-      <if test="id != 'root'.toString()">
+      <if test="id >0">
         PARENT_ID = #{id}
       </if>
     </where>
@@ -145,12 +153,12 @@
   </select>
 
   <select id="selectModuleAndSystemBySystemId" resultMap="ModuleAndSystemMap">
-    SELECT ID, MODULE_NAME FROM MENU_INFO
+    SELECT ID, MENU_NAME FROM MENU_INFO
     WHERE SYSTEM_ID = #{ID} AND PARENT_ID =0
   </select>
 
   <select id="selectModuleAndSystemByParentId" resultMap="ModuleAndSystemMap">
-    SELECT ID, MODULE_NAME FROM MENU_INFO
+    SELECT ID, MENU_NAME FROM MENU_INFO
     WHERE  PARENT_ID = #{ID}
   </select>
 
@@ -159,6 +167,6 @@
      FROM USER_ROLE_REL bur
       LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
       LEFT JOIN MENU_RIGHT_INFO bmr ON brm.MENU_ID = bmr.MENU_ID
-    WHERE bur.USER_ID = #{USER_ID} AND bmr.MENU_ID = #{MENU_ID}
+    WHERE bur.USER_ID = #{USER_ID} AND bmr.MENU_ID = #{MENU_ID} AND (brm.BUTTON &amp; bmr.RIGHT_DESCRIBE)>0
   </select>
 </mapper>

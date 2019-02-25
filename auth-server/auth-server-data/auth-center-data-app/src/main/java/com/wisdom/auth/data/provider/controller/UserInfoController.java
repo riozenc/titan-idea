@@ -93,7 +93,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/add")
     @Override
     protected ResponseData<UserInfo> addRecord(@RequestBody UserInfo record) {
         logger.debug("添加用户");
@@ -111,7 +111,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/user")
+    @PostMapping("/user/delete")
     @Override
         protected ResponseData<UserInfo> deleteRecord(@RequestBody List<UserInfo> record) {
         logger.debug("删除用户");
@@ -125,7 +125,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/user")
+    @PostMapping("/user/update")
     @Override
     protected ResponseData<UserInfo> updateRecord(@RequestBody UserInfo record) {
         logger.debug("更新用户");
@@ -175,7 +175,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
-    @PostMapping("/user/role")
+    @PostMapping("/user/role/save")
     public ResponseData<UserInfo> saveUserRole(@RequestBody List<UserRoleRel> userRoleRelList) {
         System.out.println("------------------------provider1-------------------------------"+ userRoleRelList);
         logger.debug("保存用户授权角色");

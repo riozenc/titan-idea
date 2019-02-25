@@ -32,7 +32,7 @@ export default {
     // 获取所有角色
     getAllRole () {
       var self = this
-      self.$http.get(`${DataMainApi}/role`, self.form)
+      self.$http.get(`${DataMainApi}/role/all`, self.form)
         .then(res => {
           if (res.data.code === Status.success) {
             self.roles = res.data.data.map(
@@ -62,7 +62,7 @@ export default {
         userId: self.userId,
         roleId: item
       }))
-      self.$http.post(`${DataMainApi}/user/role`, userRole)
+      self.$http.post(`${DataMainApi}/user/role/save`, userRole)
         .then(res => {
           if (res.data.code === Status.success) {
             self.$notify.success(self.$t('constant.user.SAVE_USER_ROLE_SUCCESS_NOTIFY'))

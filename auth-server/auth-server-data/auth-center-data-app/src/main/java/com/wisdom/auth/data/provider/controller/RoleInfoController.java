@@ -4,11 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
+import com.wisdom.auth.data.api.mapper.model.RoleDeptRel;
 import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleMenuRel;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.RoleInfoRequest;
 import com.wisdom.auth.data.api.service.RoleInfoRemoteService;
+import com.wisdom.auth.data.provider.service.RoleDeptRelService;
 import com.wisdom.auth.data.provider.service.RoleInfoService;
 import com.wisdom.auth.data.provider.service.RoleMenuRelService;
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +37,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
     @Autowired
     private RoleMenuRelService roleMenuRelService;
 
+    @Autowired
+    private RoleDeptRelService roleDeptRelService;
+
     @Override
     public ResponseData<List<RoleInfo>> getRoleByUserId(@PathVariable("userId") Integer userId) {
         logger.debug("根据用户查询角色");
@@ -49,7 +54,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
-    @GetMapping("/role")
+    @GetMapping("/role/all")
     public ResponseData<List<RoleInfo>> getAllRole() {
         logger.debug("获取所有角色");
         List<RoleInfo> list;
@@ -83,7 +88,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/role")
+    @PostMapping("/role/add")
     @Override
     protected ResponseData<RoleInfo> addRecord(@RequestBody RoleInfo record) {
         logger.debug("添加角色");
@@ -99,7 +104,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/role")
+    @PostMapping("/role/delete")
     @Override
     protected ResponseData<RoleInfo> deleteRecord(@RequestBody List<RoleInfo> record) {
         logger.debug("删除角色");
@@ -113,7 +118,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/role")
+    @PostMapping("/role/update")
     @Override
     protected ResponseData<RoleInfo> updateRecord(@RequestBody RoleInfo record) {
         logger.debug("更新角色");
@@ -140,7 +145,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
-    @GetMapping("/role/auth/{roleId}")
+    @GetMapping("/role/menu/{roleId}")
     public ResponseData<List<RoleMenuRel>> getAuthModule(@PathVariable("roleId") String roleId) {
         logger.debug("查询角色已授权模块");
         List<RoleMenuRel> list;
@@ -152,5 +157,49 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
             return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+
+    @PostMapping("/role/menu/save")
+    public ResponseData saveRoleResourcesAuth(@RequestBody List<RoleMenuRel> roleModule) {
+        logger.debug("保存角色权限");
+        try {
+            roleMenuRelService.saveRoleModule(roleModule);
+        } catch (RuntimeException e) {
+            logger.error("保存角色权限失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+    }
+
+
+    @GetMapping("/role/dept/{roleId}")
+    public ResponseData<List<RoleDeptRel>> getAuthDept(@PathVariable("roleId") String roleId) {
+        logger.debug("查询角色已授权组织机构");
+        List<RoleDeptRel> list;
+        try {
+            list = roleDeptRelService.selectRoleDept(roleId);
+        } catch (Exception e) {
+            logger.error("查询角色已授权组织机构失败：" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping("/role/dept/save")
+    public ResponseData saveRoleDeptAuth(@RequestBody List<RoleDeptRel> roleDept) {
+        logger.debug("保存角色权限");
+        try {
+            roleDeptRelService.saveRoleDept(roleDept);
+        } catch (RuntimeException e) {
+            logger.error("保存角色权限失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 }

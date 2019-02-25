@@ -9,13 +9,13 @@ spring:
     locator:
      enabled: true
    routes:
-    - id: auth-data
-      uri: lb://AUTH-DATA
-      predicates:
-      - Path=/api/sys-data/**
-      filters:
-      - StripPrefix=2
-      - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+     - id: auth-data
+       uri: lb://AUTH-DATA
+       predicates:
+         - Path=/auth-data/**
+       filters:
+#         - StripPrefix=1
+         - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 eureka:
   client:
     serviceUrl:

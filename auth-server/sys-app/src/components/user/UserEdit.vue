@@ -112,7 +112,7 @@ export default {
       self.$refs.editUserForm.validate(result => {
         self.editUserLoading = true
         if (result) {
-          self.$http.put(`${DataMainApi}/user`, self.form)
+          self.$http.post(`${DataMainApi}/user/update`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.user.EDIT_USER_SUCCESS_NOTIFY'))

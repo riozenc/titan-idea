@@ -82,16 +82,16 @@ import { mapGetters, mapActions } from 'vuex'
 import ModifyPassword from './user/ModifyPassword.vue'
 
 var Menu = {
-  template: '<el-menu-item v-if="module.subModules.length === 0" :index="module.menuUrl" ' +
+  template: '<el-menu-item v-if="module.subModules==null||module.subModules.length === 0" :index="module.menuUrl" ' +
   ':title="module.menuName" :parent="module.parentId" :key="module.id" :disabled="false" :code="module.id" @click="click">' +
   '<i :class="module.imgSrc ? module.imgSrc : \'el-icon-star-off\'"></i>' +
-  '<span slot="title">{{$t(module.id)}}</span>' +
+  '<span slot="title">{{$t(module.menuName)}}</span>' +
   '</el-menu-item>' +
   '<el-submenu v-else-if="module.subModules.length > 0" :title="module.menuName" :parent="module.parentId" :code="module.id"' +
   ':index="module.menuUrl" :key="module.id">' +
   '<template slot="title">' +
   '<i :class="module.imgSrc ? module.imgSrc : \'el-icon-star-off\'"></i>' +
-  '<span slot="title">{{$t(module.id)}}</span>' +
+  '<span slot="title">{{$t(module.menuName)}}</span>' +
   '</template>' +
   '<main-menu v-for="item in module.subModules" :module="item" :key="item.id" @click="click"></main-menu>' +
   '</el-submenu>',
@@ -130,7 +130,7 @@ export default {
       if (!parent) {
         // 清空面包屑
         this.breadcrumb = []
-        this.breadcrumb.push({ title: menu.$attrs.title, code: menu.$attrs.code, path: menu.index })
+        //this.breadcrumb.push({ title: menu.$attrs.title, code: menu.$attrs.title, path: menu.index })
         this.resetTags(menu.index)
         // 添加标签
         if (!this.checkTags(menu.index)) {
@@ -138,10 +138,10 @@ export default {
           if (this.tags.length === this.tagLenght) {
             this.tags.splice(0, 1)
           }
-          this.tags.push({ title: menu.$attrs.title, code: menu.$attrs.code, path: menu.index, active: true, menu: menu })
+          this.tags.push({ title: menu.$attrs.title, code: menu.$attrs.title, path: menu.index, active: true, menu: menu })
         }
       } else {
-        this.breadcrumb.push({ title: menu.$attrs.title, code: menu.$attrs.code, path: null })
+        this.breadcrumb.push({ title: menu.$attrs.title, code: menu.$attrs.title, path: null })
       }
       if (menu.$attrs.parent) {
         this.clickMenu(menu.$parent.$parent, true)

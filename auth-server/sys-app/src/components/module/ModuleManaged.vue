@@ -31,19 +31,21 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="moduleName"
+          prop="menuName"
           :label="$t('constant.module.MODULE_NAME')">
         </el-table-column>
+        <!--
         <el-table-column
            prop="moduleCode"
            :label="$t('constant.module.MODULE_CODE')">
         </el-table-column>
+        -->
         <el-table-column
-           prop="modulePath"
+           prop="menuUrl"
            :label="$t('constant.module.MODULE_PATH')">
         </el-table-column>
         <el-table-column
-           prop="sort"
+           prop="sortNo"
            :label="$t('constant.module.SORT')">
         </el-table-column>
         <el-table-column :label="$t('constant.OPERATE')">
@@ -101,7 +103,7 @@ export default {
       // 默认展开
       expandedKeys: [],
       treeProps: {
-        label: 'moduleName',
+        label: 'menuName',
         children: 'subModule',
         isLeaf: 'leaf'
       },
@@ -122,8 +124,8 @@ export default {
       deleteDialogShow: false,
       deleteDialogLoading: false,
       currentModule: {
-        moduleId: null,
-        moduleName: null,
+        menuId: null,
+        menuName: null,
         systemId: null,
         systemName: null,
         key: null
@@ -139,12 +141,12 @@ export default {
     loadSystem (first) {
       var self = this
       self.treeLoading = true
-      this.$http.get(`${DataMainApi}/system`)
+      this.$http.get(`${DataMainApi}/system/all`)
         .then(res => {
           if (res.data.code === Status.success) {
             self.systemData = res.data.data.map(e => ({
               id: e.id,
-              moduleName: e.systemName,
+              menuName: e.systemName,
               leaf: false
             }))
             setTimeout(function () {
@@ -172,19 +174,19 @@ export default {
       var query
       // 加载系统下节点
       if (node.level === 1) {
-        query = {id: 'root', systemId: node.key}
+        query = {id: 0, systemId: node.key}
       } else {
         query = {id: node.key}
       }
       self.treeLoading = true
-      this.$http.post(`${DataMainApi}/module/tree`, query).then(res => {
+      this.$http.post(`${DataMainApi}/menu/tree`, query).then(res => {
         if (res.data.code === Status.success) {
           setTimeout(function () {
             self.treeLoading = false
           }, 500)
           return resolve(res.data.data.map(e => ({
             id: e.id,
-            moduleName: e.moduleName,
+            menuName: e.menuName,
             subModule: e.subModule,
             leaf: e.subModules.length === 0
           })))
@@ -215,7 +217,7 @@ export default {
     loadTable () {
       var self = this
       self.tableLoading = true
-      this.$http.post(`${DataMainApi}/module/table`, self.queryForm)
+      this.$http.post(`${DataMainApi}/menu/table`, self.queryForm)
         .then(res => {
           if (res.data.code === Status.success) {
             self.tableData = res.data.data.rows
@@ -260,8 +262,8 @@ export default {
       // 首次调用
       if (!parent) {
         parent = this.$refs.tree.getNode(this.currentModule.key)
-        this.currentModule.moduleId = parent.key
-        this.currentModule.moduleName = parent.label
+        this.currentModule.menuId = parent.key
+        this.currentModule.menuName = parent.label
       }
       if (parent.parent.level !== 0) {
         this.getCurrentNode(parent.parent)
@@ -270,9 +272,9 @@ export default {
         this.currentModule.systemId = parent.key
         this.currentModule.systemName = parent.label
         // 判断模块id是否等于系统id
-        if (parent.key === this.currentModule.moduleId) {
-          this.currentModule.moduleId = null
-          this.currentModule.moduleName = null
+        if (parent.key === this.currentModule.menuId) {
+          this.currentModule.menuId = null
+          this.currentModule.menuName = null
         }
       }
     },
@@ -294,7 +296,7 @@ export default {
       var self = this
       if (this.selectData.length > 0) {
         this.deleteDialogLoading = true
-        this.$http.delete(`${DataMainApi}/menu`, {data: self.selectData})
+        this.$http.post(`${DataMainApi}/menu/delete`, {data: self.selectData})
           .then(res => {
             if (res.data.code === Status.success) {
               self.$notify.success(self.$t('constant.module.DELETE_MODULE_SUCCESS_NOTIFY'))

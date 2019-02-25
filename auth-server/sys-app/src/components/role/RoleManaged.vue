@@ -167,7 +167,7 @@ export default {
       var self = this
       if (this.selectData.length > 0) {
         this.deleteDialogLoading = true
-        this.$http.delete(`${DataMainApi}/role`, {data: self.selectData})
+        this.$http.post(`${DataMainApi}/role/delete`, {data: self.selectData})
           .then(res => {
             if (res.data.code === Status.success) {
               self.$notify.success(self.$t('constant.role.DELETE_ROLE_SUCCESS_NOTIFY'))

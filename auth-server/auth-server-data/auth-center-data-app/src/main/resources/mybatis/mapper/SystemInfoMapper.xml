@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="SYSTEM_NAME" property="systemName" jdbcType="VARCHAR" />
     <result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR" />
     <result column="ACTIVE" property="active" jdbcType="INTEGER" />
@@ -18,7 +18,7 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="SYSTEM_NAME" property="moduleName" jdbcType="VARCHAR" />
     <collection  column="{ID=ID}" property="subModules"
                  select="com.wisdom.auth.data.provider.mapper.mapper.MenuInfoMapper.selectModuleAndSystemBySystemId" />

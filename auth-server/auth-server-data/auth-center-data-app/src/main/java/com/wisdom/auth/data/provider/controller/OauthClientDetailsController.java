@@ -45,7 +45,7 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/client")
+    @PostMapping("/client/add")
     @Override
     protected ResponseData<OauthClientDetails> addRecord(@RequestBody OauthClientDetails record) {
         logger.debug("添加客户端应用");
@@ -59,7 +59,7 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/client")
+    @PostMapping("/client/delete")
     @Override
     protected ResponseData<OauthClientDetails> deleteRecord(@RequestBody List<OauthClientDetails> record) {
         logger.debug("删除客户端应用");
@@ -73,7 +73,7 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/client")
+    @PostMapping("/client/update")
     @Override
     protected ResponseData<OauthClientDetails> updateRecord(@RequestBody OauthClientDetails record) {
         logger.debug("更新客户端应用");

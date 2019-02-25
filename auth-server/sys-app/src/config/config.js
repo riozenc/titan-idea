@@ -25,7 +25,6 @@ export default {
     console.info("process.env.NODE_ENV:"+process.env.NODE_ENV)
     console.info("window.serverconf[process.env.NODE_ENV]['baseUrl']:"+window.serverconf[process.env.NODE_ENV]['baseUrl'])
     Vue.prototype.$auth.config.authUrl = window.serverconf[process.env.NODE_ENV]['authUrl']
-
     // 配置认证头
     Vue.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$auth.token()
     console.info("Vue.prototype.$auth.token():"+Vue.prototype.$auth.token())
@@ -35,7 +34,8 @@ export default {
     // Vue.axios.interceptors.request.use(
     //   config => {
     //     config.headers = {
-    //       'Content-Type': 'application/x-www-form-urlencoded' // 设置很关键
+    //       'Content-Type': 'application/x-www-form-urlencoded', // 设置很关键
+    //       'Authorization': 'Bearer ' + Vue.prototype.$auth.token()
     //     }
     //     return config
     //   },

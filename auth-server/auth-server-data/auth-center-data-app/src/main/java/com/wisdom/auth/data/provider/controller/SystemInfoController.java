@@ -50,12 +50,12 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
     }
 
-    @PostMapping("/system")
+    @PostMapping("/system/add")
     @Override
     protected ResponseData<SystemInfo> addRecord(@RequestBody SystemInfo record) {
         logger.debug("添加系统");
         try {
-            record.setId(UUID.uuid32());
+//            record.setId(UUID.uuid32());
             record.setCreateDate(new Date());
             systemInfoService.insertSelective(record);
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @DeleteMapping("/system")
+    @PostMapping("/system/delete")
     @Override
     protected ResponseData<SystemInfo> deleteRecord(@RequestBody List<SystemInfo> record) {
         logger.debug("删除系统");
@@ -80,7 +80,7 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
-    @PutMapping("/system")
+    @PostMapping("/system/update")
     @Override
     protected ResponseData<SystemInfo> updateRecord(@RequestBody SystemInfo record) {
         logger.debug("更新系统");
@@ -107,7 +107,7 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
-    @GetMapping("/system")
+    @GetMapping("/system/all")
     public ResponseData<List<SystemInfo>> getSystem() {
         logger.debug("查询所有系统");
         List<SystemInfo> list;
@@ -121,7 +121,7 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
-    @GetMapping("/system/module")
+    @GetMapping("/system/menu")
     public ResponseData<List<ModuleAndSystemResponse>> getModuleAndSystem() {
         logger.debug("查询系统及模块树");
         List<ModuleAndSystemResponse> list;

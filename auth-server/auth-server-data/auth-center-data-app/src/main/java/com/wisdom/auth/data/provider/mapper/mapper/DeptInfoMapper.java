@@ -9,4 +9,5 @@ import java.util.List;
 @org.apache.ibatis.annotations.Mapper
 public interface DeptInfoMapper extends Mapper<DeptInfo> {
     List<DeptInfo> getDeptsByUserId(@Param("userId") Integer userId);
+    List<DeptInfo> selectDeptTree(@Param("id") Integer id);
 }

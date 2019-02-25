@@ -123,7 +123,7 @@ export default {
       self.$refs.userAddForm.validate(result => {
         self.addUserLoading = true
         if (result) {
-          self.$http.post(`${DataMainApi}/user`, self.form)
+          self.$http.post(`${DataMainApi}/user/add`, self.form)
             .then(res => {
               if (res.data.code === Status.success) {
                 self.$notify.success(self.$t('constant.user.SAVE_USER_SUCCESS_NOTIFY'))
