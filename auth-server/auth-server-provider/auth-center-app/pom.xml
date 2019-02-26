@@ -11,6 +11,7 @@
 
     <artifactId>auth-center-app</artifactId>
     <description>授权中心服务端</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -82,6 +83,7 @@
             <version>3.2.1</version>
         </dependency>
         <!--zipkin-->
+        <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
@@ -95,6 +97,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
+        -->
         <!--<dependency>-->
             <!--<groupId>org.apache.commons</groupId>-->
             <!--<artifactId>commons-pool2</artifactId>-->
@@ -105,5 +108,22 @@
             <!--<version>3.1.0</version>-->
         <!--</dependency>-->
     </dependencies>
-
+    <!-- 普通的maven打包方式 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+            </plugin>
+            <!--
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
+            -->
+        </plugins>
+    </build>
 </project>

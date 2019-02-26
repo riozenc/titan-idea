@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Class-Path: mapper-3.4.2.jar spring-boot-autoconfigure-1.5.6.RELEASE.j
+ ar spring-boot-configuration-processor-1.5.6.RELEASE.jar log4j-over-s
+ lf4j-1.7.25.jar pagehelper-5.0.3.jar logback-core-1.1.11.jar mybatis-
+ spring-1.3.1.jar druid-1.1.10.jar mybatis-spring-boot-autoconfigure-1
+ .3.0.jar jackson-annotations-2.8.0.jar jsqlparser-1.0.jar spring-cont
+ ext-4.3.13.RELEASE.jar spring-boot-starter-jdbc-1.5.6.RELEASE.jar com
+ mons-lang-2.6.jar android-json-0.0.20131108.vaadin1.jar druid-spring-
+ boot-starter-1.1.10.jar jackson-databind-2.8.10.jar jackson-core-2.8.
+ 10.jar spring-boot-starter-1.5.9.RELEASE.jar spring-core-4.3.13.RELEA
+ SE.jar tomcat-juli-8.5.23.jar jcl-over-slf4j-1.7.25.jar swagger-annot
+ ations-1.5.13.jar snakeyaml-1.17.jar spring-aop-4.3.13.RELEASE.jar pe
+ rsistence-api-1.0.jar spring-boot-starter-logging-1.5.9.RELEASE.jar s
+ lf4j-api-1.7.25.jar spring-tx-4.3.13.RELEASE.jar gson-2.8.5.jar jacks
+ on-core-asl-1.9.13.jar spring-expression-4.3.13.RELEASE.jar spring-bo
+ ot-1.5.9.RELEASE.jar logback-classic-1.1.11.jar spring-beans-4.3.13.R
+ ELEASE.jar tomcat-jdbc-8.5.23.jar mybatis-3.4.4.jar jul-to-slf4j-1.7.
+ 25.jar mybatis-spring-boot-starter-1.3.0.jar spring-jdbc-4.3.13.RELEA
+ SE.jar
+Main-Class: 
+

@@ -93,6 +93,7 @@
         </dependency>
 
         <!--zipkin-->
+        <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
@@ -106,7 +107,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
-
+-->
     </dependencies>
 
     <!-- 普通的maven打包方式 -->

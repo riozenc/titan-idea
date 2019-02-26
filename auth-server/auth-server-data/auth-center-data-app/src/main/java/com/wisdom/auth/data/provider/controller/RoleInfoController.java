@@ -10,6 +10,7 @@ import com.wisdom.auth.data.api.mapper.model.RoleMenuRel;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.RoleInfoRequest;
 import com.wisdom.auth.data.api.service.RoleInfoRemoteService;
+import com.wisdom.auth.data.provider.redis.AccessTokenUtils;
 import com.wisdom.auth.data.provider.service.RoleDeptRelService;
 import com.wisdom.auth.data.provider.service.RoleInfoService;
 import com.wisdom.auth.data.provider.service.RoleMenuRelService;
@@ -39,6 +40,8 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
 
     @Autowired
     private RoleDeptRelService roleDeptRelService;
+    @Autowired
+    private AccessTokenUtils accessTokenUtils;
 
     @Override
     public ResponseData<List<RoleInfo>> getRoleByUserId(@PathVariable("userId") Integer userId) {
@@ -51,6 +54,17 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
             e.printStackTrace();
             return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    /**
+     * 从redis中查询当前用户拥有的角色，返回列表结构
+     * @return
+     */
+    @GetMapping("/role/auth/table")
+    public ResponseData<List<RoleInfo>> getCurrentRoleList() {
+        logger.debug("查询当前用户角色列表");
+        List<RoleInfo> list =accessTokenUtils.getRoleInfo();
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 

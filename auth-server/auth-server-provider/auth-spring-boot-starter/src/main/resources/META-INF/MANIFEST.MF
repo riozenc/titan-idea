@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Class-Path: jackson-core-asl-1.9.13.jar spring-beans-4.3.13.RELEASE.ja
+ r bcprov-jdk15on-1.56.jar spring-boot-1.5.9.RELEASE.jar spring-contex
+ t-4.3.13.RELEASE.jar spring-expression-4.3.13.RELEASE.jar javax.servl
+ et-api-3.1.0.jar gson-2.8.5.jar spring-security-jwt-1.0.8.RELEASE.jar
+  spring-boot-autoconfigure-2.0.2.RELEASE.jar spring-aop-4.3.13.RELEAS
+ E.jar jackson-databind-2.8.10.jar swagger-annotations-1.5.13.jar comm
+ ons-lang-2.6.jar jackson-annotations-2.8.0.jar jackson-core-2.8.10.ja
+ r spring-core-4.3.13.RELEASE.jar bcpkix-jdk15on-1.56.jar
+Main-Class: 
+

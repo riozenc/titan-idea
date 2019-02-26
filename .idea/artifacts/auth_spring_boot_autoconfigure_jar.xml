@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact name="auth-spring-boot-autoconfigure:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/auth_spring_boot_autoconfigure_jar</output-path>
+    <root id="root">
+      <element id="archive" name="auth-spring-boot-autoconfigure.jar">
+        <element id="module-output" name="auth-spring-boot-autoconfigure" />
+        <element id="module-output" name="common" />
+      </element>
+      <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.13.RELEASE" />
+      <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15on:1.56" />
+      <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:1.5.9.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.13.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.13.RELEASE" />
+      <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
+      <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+      <element id="library" level="project" name="Maven: org.springframework.security:spring-security-jwt:1.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.56" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.13.RELEASE" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.10" />
+      <element id="library" level="project" name="Maven: io.swagger:swagger-annotations:1.5.13" />
+      <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.0" />
+      <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.5.9.RELEASE" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.10" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.13.RELEASE" />
+    </root>
+  </artifact>
+</component>

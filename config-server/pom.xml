@@ -11,6 +11,7 @@
 
     <artifactId>config-server</artifactId>
     <description>配置中心</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!--
