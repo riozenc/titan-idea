@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +66,13 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
     public ResponseData<List<RoleInfo>> getCurrentRoleList() {
         logger.debug("查询当前用户角色列表");
         List<RoleInfo> list =accessTokenUtils.getRoleInfo();
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        List<RoleInfo> result = new ArrayList<RoleInfo>();
+        for (RoleInfo roleInfo:list){
+            RoleInfo temp = (RoleInfo)roleInfo.clone();
+            temp.setModules(null);
+            result.add(temp);
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), result);
     }
 
     @GetMapping("/role/all")

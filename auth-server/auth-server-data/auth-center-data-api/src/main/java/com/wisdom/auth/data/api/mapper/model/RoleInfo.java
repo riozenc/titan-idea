@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "ROLE_INFO")
-public class RoleInfo implements Serializable {
+public class RoleInfo implements Serializable,Cloneable {
     @Id
     @Column(name = "ID")
     private Integer id;
@@ -130,5 +130,13 @@ public class RoleInfo implements Serializable {
 
     public void setModules(List<MenuInfo> modules) {
         this.modules = modules;
+    }
+    public Object clone(){
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            return null;
+        }
     }
 }
