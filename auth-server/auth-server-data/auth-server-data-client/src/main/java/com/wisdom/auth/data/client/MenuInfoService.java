@@ -20,7 +20,7 @@ public interface MenuInfoService extends MenuInfoRemoteService {
 
         @Override
         public ResponseData<List<MenuInfo>> getMenusByUserId(@PathVariable("userId") Integer userId) {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
     }
 }

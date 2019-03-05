@@ -5,8 +5,9 @@ public class ResponseData<T> {
     /**
      * 返回码
      */
-    private Integer code;
+    private Integer status;
 
+    private String error;
     /**
      * 返回描述
      */
@@ -17,23 +18,33 @@ public class ResponseData<T> {
     public ResponseData() {
     }
 
-    public ResponseData(Integer code, String message) {
-        this.code = code;
+    public ResponseData(Integer code,String error, String message) {
+        this.status = code;
+        this.error = error;
         this.message = message;
     }
 
-    public ResponseData(Integer code, String message, T data) {
-        this.code = code;
+    public ResponseData(Integer code,String error, String message, T data) {
+        this.status = code;
+        this.error = error;
         this.message = message;
         this.data = data;
     }
 
-    public Integer getCode() {
-        return code;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public String getMessage() {

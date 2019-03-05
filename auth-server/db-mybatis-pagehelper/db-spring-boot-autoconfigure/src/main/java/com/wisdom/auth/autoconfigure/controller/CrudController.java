@@ -38,6 +38,6 @@ abstract public class CrudController<T, R> {
         TableData<T> data = new TableData();
         data.setTotal(pageInfo.getTotal());
         data.setRows(pageInfo.getList());
-        return new ResponseData(code, message, data);
+        return new ResponseData(code,"", message, data);
     }
 }

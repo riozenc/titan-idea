@@ -45,9 +45,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询菜单错误");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @GetMapping("/menu/auth/tree")
@@ -55,7 +55,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         List<MenuInfo> list = accessTokenUtils.getMenuInfo();
         System.out.println("--------------/menu----------provider1-------------------------------"+list);
         logger.debug("查询当前用户菜单");
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);//
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);//
     }
     /**
      * 从redis中查询当前用户拥有的菜单，返回列表结构
@@ -65,7 +65,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
     public ResponseData<List<MenuInfo>> getCurrentMenuList() {
         logger.debug("查询当前用户组织机构列表");
         List<MenuInfo> list =listHierarchy(accessTokenUtils.getMenuInfo());
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     private List<MenuInfo> listHierarchy(List<MenuInfo> parent){
@@ -89,9 +89,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/menu/table")
@@ -144,9 +144,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("添加模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/menu/delete")
@@ -158,9 +158,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("删除模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/menu/update")
@@ -173,9 +173,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("更新模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/menu/validate/{menuCode}")
@@ -185,9 +185,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         menuInfo.setMenuCode(menuCode);
         menuInfo = menuInfoService.selectOne(menuInfo);
         if(menuInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
     }
 
     /**

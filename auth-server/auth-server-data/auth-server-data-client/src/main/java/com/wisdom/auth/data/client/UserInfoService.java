@@ -22,17 +22,17 @@ public interface UserInfoService extends UserInfoRemoteService {
 
         @Override
         public ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId) {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(),ResponseCode.ERROR.getMessage());
         }
 
         @Override
         public ResponseData<UserInfo> getUserByPhone(@PathVariable("phone") String phone) {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(),ResponseCode.ERROR.getMessage());
         }
 
         @Override
         public ResponseData<UserInfo> addRecord(@RequestBody UserInfo record) {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(),ResponseCode.ERROR.getMessage());
         }
     }
 }

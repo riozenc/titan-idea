@@ -47,9 +47,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询组织机构错误");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     /**
@@ -60,7 +60,7 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
     public ResponseData<List<DeptInfo>> getCurrentDept() {
         System.out.println("--------------/menu----------provider1-------------------------------"+accessTokenUtils.getDeptInfo());
         logger.debug("查询当前用户组织机构");
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), accessTokenUtils.getDeptInfo());//
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), accessTokenUtils.getDeptInfo());//
     }
 
     /**
@@ -71,7 +71,7 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
     public ResponseData<List<DeptInfo>> getCurrentDeptList() {
         logger.debug("查询当前用户组织机构列表");
         List<DeptInfo> list =listHierarchy(accessTokenUtils.getDeptInfo());
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     private List<DeptInfo> listHierarchy(List<DeptInfo> parent){
@@ -96,9 +96,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         } catch (Exception e) {
             logger.error("查询组织机构树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/dept/table")
@@ -145,9 +145,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         } catch (Exception e) {
             logger.error("添加组织机构失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/dept/delete")
@@ -159,9 +159,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         } catch (Exception e) {
             logger.error("删除组织机构失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/dept/update")
@@ -174,9 +174,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         } catch (Exception e) {
             logger.error("更新组织机构失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/dept/validate/{deptId}")
@@ -186,9 +186,9 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         deptInfo.setDeptId(deptId);
         deptInfo = deptInfoService.selectOne(deptInfo);
         if(deptInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
     }
 
 }

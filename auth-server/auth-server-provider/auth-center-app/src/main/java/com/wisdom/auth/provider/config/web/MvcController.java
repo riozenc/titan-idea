@@ -172,13 +172,13 @@ public class MvcController {
         //多个客户端 TODO ?
         ResponseData responseData=baseClientService.getAllClient();
         if(null!=responseData) {
-            System.out.println(responseData.getCode()+"====baseClientService====="+((List)responseData.getData()).size());
+            System.out.println(responseData.getStatus()+"====baseClientService====="+((List)responseData.getData()).size());
         }else {
 //            responseData = baseClientService2.getAllClient();
 //            System.out.println("====baseClientService2=====");
         }
 
-        if(ResponseCode.SUCCESS.getCode().equals(responseData.getCode()) && responseData.getData() != null) {
+        if(ResponseCode.SUCCESS.getCode().equals(responseData.getStatus()) && responseData.getData() != null) {
             System.out.println("====baseClientService.getAllClient()=====success");
             model.put("client",responseData.getData());
         } else {

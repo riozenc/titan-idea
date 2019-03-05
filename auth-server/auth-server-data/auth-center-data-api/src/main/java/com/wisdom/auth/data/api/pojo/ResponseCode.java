@@ -2,7 +2,7 @@ package com.wisdom.auth.data.api.pojo;
 
 public enum ResponseCode {
 
-    SUCCESS(1000, "success."),
+    SUCCESS(200, "success."),
     ERROR(1001, "error."),
     PARA_ERROR(1002, "parameters error."),
     TOKEN_ERROR(1003, "token error.");

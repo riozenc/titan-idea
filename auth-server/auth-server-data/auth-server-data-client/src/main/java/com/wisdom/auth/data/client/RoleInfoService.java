@@ -20,7 +20,7 @@ public interface RoleInfoService extends RoleInfoRemoteService {
 
         @Override
         public ResponseData<List<RoleInfo>> getRoleByUserId(@PathVariable("userId") Integer userId) {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(),ResponseCode.ERROR.getMessage());
         }
     }
 }

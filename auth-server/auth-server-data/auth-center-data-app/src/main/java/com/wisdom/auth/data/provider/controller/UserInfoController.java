@@ -45,13 +45,13 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
     public ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId) {
         logger.debug("根据用户名查询用户");
         if(StringUtils.isEmpty(userId)){
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
         UserInfo userInfo = new UserInfo();
 //        userInfo.setUserName(userName);
         userInfo.setUserId(userId);
         userInfo = userInfoService.selectOne(userInfo);
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), userInfo);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), userInfo);
     }
 
     /**
@@ -63,12 +63,12 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
     public ResponseData<UserInfo> getUserByPhone(@PathVariable("phone") String phone) {
         logger.debug("根据电话号码查询用户");
         if(StringUtils.isEmpty(phone)){
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
         userInfo = userInfoService.selectOne(userInfo);
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), userInfo);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), userInfo);
     }
 
     @PostMapping("/user/table")
@@ -106,9 +106,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("添加用户失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/user/delete")
@@ -120,9 +120,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("删除用户失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/user/update")
@@ -136,9 +136,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("更新用户失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     /**
@@ -154,9 +154,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("重置密码用户失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/user/role/{userId}")
@@ -170,9 +170,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("获取用户授权角色失败" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/user/role/save")
@@ -184,9 +184,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         } catch (Exception e) {
             logger.error("保存用户授权角色失败" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/user/validate/{userId}")
@@ -197,9 +197,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         userInfo.setUserId(userId);
         userInfo = userInfoService.selectOne(userInfo);
         if(userInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
     }
 
     @GetMapping("/user/validate/phone/{phone}")
@@ -209,8 +209,8 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         userInfo.setPhone(phone);
         userInfo = userInfoService.selectOne(userInfo);
         if(userInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
     }
 }

@@ -19,7 +19,7 @@ public interface BaseClientService extends BaseClientRemoteService {
 
         @Override
         public ResponseData<List<OauthClientDetails>> getAllClient() {
-            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
         }
     }
 }

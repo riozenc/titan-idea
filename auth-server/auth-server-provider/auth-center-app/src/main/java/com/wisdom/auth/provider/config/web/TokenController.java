@@ -23,7 +23,7 @@ public class TokenController {
     @RequestMapping("/extractToken")
     public ResponseData extract(String token) {
         if (!token.toLowerCase().startsWith("Bearer".toLowerCase())){
-            return new ResponseData<>(ResponseCode.TOKEN_ERROR.getCode(), ResponseCode.TOKEN_ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.TOKEN_ERROR.getCode(), ResponseCode.TOKEN_ERROR.getMessage(), ResponseCode.TOKEN_ERROR.getMessage());
         }
         String authHeaderValue = token.substring("Bearer".length()).trim();
         int commaIndex = authHeaderValue.indexOf(44);
@@ -42,11 +42,11 @@ public class TokenController {
             String json = JsonUtils.deserializer(map.get("user_info"));
             UserInfo userInfo = JsonUtils.serializable(json, UserInfo.class);
 
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), userInfo);
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), userInfo);
         }
         catch (Exception e){
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.TOKEN_ERROR.getCode(), ResponseCode.TOKEN_ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.TOKEN_ERROR.getCode(), ResponseCode.TOKEN_ERROR.getMessage(), ResponseCode.TOKEN_ERROR.getMessage());
         }
 
     }

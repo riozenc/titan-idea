@@ -82,7 +82,7 @@ public class BaseUserDetailService implements UserDetailsService {
 //                System.out.println("====baseUserService2.getUserByPhone=====");
 //            }
 
-            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getCode())) {
+            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatus())) {
                 logger.error("找不到该用户，手机号码：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，手机号码：" + parameter[1]);
             }
@@ -96,7 +96,7 @@ public class BaseUserDetailService implements UserDetailsService {
             baseUserResponseData = baseUserService.getUserByUserName(parameter[1]);
 
             System.out.println("====baseUserResponseData:" + JsonUtils.deserializer(baseUserResponseData));
-            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getCode())) {
+            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatus())) {
                 logger.error("找不到该用户，用户名：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，用户名：" + parameter[1]);
             }
@@ -115,7 +115,7 @@ public class BaseUserDetailService implements UserDetailsService {
 //        }
         System.out.println("====baseRoleListResponseData:" + JsonUtils.deserializer(baseRoleListResponseData));
         List<RoleInfo> roles;
-        if (baseRoleListResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getCode())) {
+        if (baseRoleListResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getStatus())) {
             logger.error("查询角色失败！");
             roles = new ArrayList<>();
         } else {
@@ -139,13 +139,13 @@ public class BaseUserDetailService implements UserDetailsService {
         List<GrantedAuthority> authorities = convertToAuthorities(userInfo, roles);  //TODO
 
         // 存储菜单到redis
-        if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getCode()) && baseModuleResourceListResponseData.getData() != null) {
+        if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatus()) && baseModuleResourceListResponseData.getData() != null) {
             resourcesTemplate.delete(userInfo.getId() + "-menu");
             baseModuleResourceListResponseData.getData().forEach(e -> {
                 resourcesTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
             });
         }
-        if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getCode()) && deptInfoListResponseData.getData() != null) {
+        if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatus()) && deptInfoListResponseData.getData() != null) {
             deptInfoRedisTemplate.delete(userInfo.getId() + "-dept");
             deptInfoListResponseData.getData().forEach(e -> {
                 deptInfoRedisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
