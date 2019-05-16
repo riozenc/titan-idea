@@ -53,6 +53,9 @@ public class UserInfoRequest extends BaseRequestPojo implements Serializable {
     @Column(name = "UPDATE_DATE")
     private Date updateDate;
 
+    private static final long serialVersionUID = 1L;
+
+
     public Integer getId() {
         return id;
     }

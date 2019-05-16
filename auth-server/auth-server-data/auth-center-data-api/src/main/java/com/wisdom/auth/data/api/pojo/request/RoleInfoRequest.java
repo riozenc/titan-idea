@@ -40,6 +40,9 @@ public class RoleInfoRequest extends BaseRequestPojo implements Serializable {
     @Transient
     private List<MenuInfo> modules;
 
+    private static final long serialVersionUID = 1L;
+
+
     /**
      * @return ID
      */

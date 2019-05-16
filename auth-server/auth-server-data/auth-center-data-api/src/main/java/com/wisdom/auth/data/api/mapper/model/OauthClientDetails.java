@@ -39,6 +39,9 @@ public class OauthClientDetails implements Serializable {
 
     private String name;
 
+    private static final long serialVersionUID = 1L;
+
+
     /**
      * @return client_id
      */

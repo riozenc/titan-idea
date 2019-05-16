@@ -17,6 +17,8 @@ public class RoleDeptRel implements Serializable {
     @Column(name = "DEPT_ID")
     private Integer deptId;
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * @return ID
      */

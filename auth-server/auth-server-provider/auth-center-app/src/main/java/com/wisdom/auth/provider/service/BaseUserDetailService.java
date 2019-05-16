@@ -57,6 +57,7 @@ public class BaseUserDetailService implements UserDetailsService {
     @Autowired
     private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
 
+
     @Override
     public UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException {
         //user&:@test
@@ -128,7 +129,7 @@ public class BaseUserDetailService implements UserDetailsService {
         baseModuleResourceListResponseData = menuInfoService.getMenusByUserId(userInfo.getId());
         // System.out.println("==== baseModuleResourceService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
-//            baseModuleResourceListResponseData = baseModuleResourceService2.getMenusByUserId(userInfo.getId());
+//            baseModuleResou/role/menu/saverceListResponseData = baseModuleResourceService2.getMenusByUserId(userInfo.getId());
 //            System.out.println("==== baseModuleResourceService2.getMenusByUserId(userInfo.getId()=====");
 //        }
 
@@ -183,12 +184,14 @@ public class BaseUserDetailService implements UserDetailsService {
     private List<GrantedAuthority> convertToAuthorities(UserInfo userInfo, List<RoleInfo> roles) {
         List<GrantedAuthority> authorities = new ArrayList();
         // 清除 Redis 中用户的角色
+        logger.debug("清除序列化");
         redisTemplate.delete(userInfo.getId().toString());
         roles.forEach(e -> {
             // 存储用户、角色信息到GrantedAuthority，并放到GrantedAuthority列表
             GrantedAuthority authority = new SimpleGrantedAuthority(e.getRoleNo());
             authorities.add(authority);
             //存储角色到redis
+            logger.debug("存储序列化");
             redisTemplate.opsForList().rightPush(userInfo.getId().toString(), e);
         });
         return authorities;

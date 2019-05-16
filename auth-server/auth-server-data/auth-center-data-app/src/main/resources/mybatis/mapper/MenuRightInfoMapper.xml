@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisdom.auth.data.provider.mapper.mapper.MenuRightInfoMapper">
+    <resultMap id="BaseResultMap" type="com.wisdom.auth.data.api.mapper.model.MenuRightInfo">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="MENU_ID" property="menuId" jdbcType="INTEGER"/>
+        <result column="RIGHT_NAME" property="rightName" jdbcType="VARCHAR"/>
+        <result column="RIGHT_DESCRIBE" property="rightDescribe" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+
+    <select id="getRightsByMenuId" resultMap="BaseResultMap">
+        SELECT * FROM MENU_RIGHT_INFO
+        where MENU_ID= #{menuId}
+    </select>
+
+
+</mapper>

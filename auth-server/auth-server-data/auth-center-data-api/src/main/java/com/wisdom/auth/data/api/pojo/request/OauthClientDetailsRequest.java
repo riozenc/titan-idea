@@ -42,6 +42,9 @@ public class OauthClientDetailsRequest extends BaseRequestPojo implements Serial
 
     private String name;
 
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * @return client_id
      */

@@ -50,11 +50,13 @@ public class MenuInfo implements Serializable,Cloneable {
     @Column(name = "UPDATE_DATE")
     private Date updateDate;
 
+
+
     /**
      * 子菜单
      */
     @Transient
-    private List<MenuInfo> subModules;
+    private List<MenuInfo> children;
     /**
      * 菜单里按钮
      */
@@ -72,6 +74,21 @@ public class MenuInfo implements Serializable,Cloneable {
     @Transient
     private Integer button;
 
+    @Transient
+    private boolean  checked;
+
+    @Transient
+    private boolean  expand;
+
+    @Transient
+    private Integer roleId;
+
+    @Transient
+    private String title;
+
+    private static final long serialVersionUID = 1L;
+
+
     public Integer getId() {
         return id;
     }
@@ -86,6 +103,22 @@ public class MenuInfo implements Serializable,Cloneable {
 
     public void setMenuName(String menuName) {
         this.menuName = menuName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<MenuInfo> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MenuInfo> children) {
+        this.children = children;
     }
 
     public String getMenuUrl() {
@@ -163,13 +196,6 @@ public class MenuInfo implements Serializable,Cloneable {
         this.updateDate = updateDate;
     }
 
-    public List<MenuInfo> getSubModules() {
-        return subModules;
-    }
-
-    public void setSubModules(List<MenuInfo> subModules) {
-        this.subModules = subModules;
-    }
 
     public String getProjectName() {
         return projectName;
@@ -193,6 +219,31 @@ public class MenuInfo implements Serializable,Cloneable {
 
     public void setButton(Integer button) {
         this.button = button;
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean getExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public String getMenuCode() {

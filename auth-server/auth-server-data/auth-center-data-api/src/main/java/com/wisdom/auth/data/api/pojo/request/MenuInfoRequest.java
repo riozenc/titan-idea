@@ -1,6 +1,8 @@
 package com.wisdom.auth.data.api.pojo.request;
 
 import com.wisdom.auth.common.pojo.BaseRequestPojo;
+import com.wisdom.auth.data.api.mapper.model.DeptInfo;
+import com.wisdom.auth.data.api.mapper.model.MenuInfo;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -20,7 +22,7 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
     private String menuCode;
 
     @Column(name = "MENU_NAME")
-    private String menuName;
+    private String title;
 
     @Column(name = "MENU_URL")
     private String menuUrl;
@@ -56,13 +58,22 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
      * 资源子项
      */
     @Transient
-    private List<MenuInfoRequest> subModules;
+    private List<MenuInfoRequest> children;
+
+    @Transient
+    private boolean  checked;
+
+    @Transient
+    private boolean  expand;
 
     /**
      * 资源所属系统
      */
     @Transient
     private String projectName;
+
+    private static final long serialVersionUID = 1L;
+
 
     public Integer getId() {
         return id;
@@ -72,12 +83,12 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
         this.id = id;
     }
 
-    public String getMenuName() {
-        return menuName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMenuUrl() {
@@ -155,13 +166,7 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public List<MenuInfoRequest> getSubModules() {
-        return subModules;
-    }
 
-    public void setSubModules(List<MenuInfoRequest> subModules) {
-        this.subModules = subModules;
-    }
 
     public String getProjectName() {
         return projectName;
@@ -177,5 +182,29 @@ public class MenuInfoRequest extends BaseRequestPojo implements Serializable {
 
     public void setMenuCode(String menuCode) {
         this.menuCode = menuCode;
+    }
+
+    public List<MenuInfoRequest> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MenuInfoRequest> children) {
+        this.children = children;
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean getExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
     }
 }

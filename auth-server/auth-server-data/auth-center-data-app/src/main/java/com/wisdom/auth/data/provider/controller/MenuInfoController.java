@@ -4,13 +4,15 @@ import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.data.api.mapper.model.MenuInfo;
-import com.wisdom.auth.data.api.mapper.model.UserInfo;
+import com.wisdom.auth.data.api.mapper.model.*;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.MenuInfoRequest;
+import com.wisdom.auth.data.api.pojo.request.RoleInfoRequest;
 import com.wisdom.auth.data.api.service.MenuInfoRemoteService;
 import com.wisdom.auth.data.provider.redis.AccessTokenUtils;
 import com.wisdom.auth.data.provider.service.MenuInfoService;
+import com.wisdom.auth.data.provider.service.MenuRightInfoService;
+import com.wisdom.auth.data.provider.service.RoleMenuRelService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yxs on 2019/1/17.
@@ -35,6 +38,12 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
 
     @Autowired
     private AccessTokenUtils accessTokenUtils;
+
+    @Autowired
+    private RoleMenuRelService roleMenuRelService;
+
+    @Autowired
+    private MenuRightInfoService menuRightInfoService;
 
     @Override
     public ResponseData<List<MenuInfo>> getMenusByUserId(@PathVariable("userId") Integer userId) {
@@ -53,8 +62,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
     @GetMapping("/menu/auth/tree")
     public ResponseData<List<MenuInfo>> getCurrentMenu() {
         List<MenuInfo> list = accessTokenUtils.getMenuInfo();
-        System.out.println("--------------/menu----------provider1-------------------------------"+list);
-        logger.debug("查询当前用户菜单");
+         logger.debug("查询当前用户菜单");
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);//
     }
     /**
@@ -72,10 +80,10 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         List<MenuInfo> result = new ArrayList<MenuInfo>();
         for (MenuInfo deptInfo:parent){
             MenuInfo temp = (MenuInfo)deptInfo.clone();
-            temp.setSubModules(null);
+            temp.setChildren(null);
             result.add(temp);
-            if(deptInfo.getSubModules()!=null){
-                result.addAll(listHierarchy(deptInfo.getSubModules()));
+            if(deptInfo.getChildren()!=null){
+                result.addAll(listHierarchy(deptInfo.getChildren()));
             }
         }
         return result;
@@ -93,6 +101,71 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
+
+    @PostMapping(value = "/menu/roleMenuTree")
+    private ResponseData<List<MenuInfo>> roleMenuTree(@RequestBody MenuInfo moduleResources) {
+        logger.debug("查询角色拥有的菜单树");
+        List<MenuInfo> list;
+        try {
+            list = menuInfoService.roleMenuTree(moduleResources.getRoleId());
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping(value = "/menu/menuButton")
+    private ResponseData<List<MenuRightInfo>> menuButton(@RequestBody MenuInfo menu) {
+        List<MenuRightInfo> list;
+        try {
+            list = menuInfoService.menuButton(menu.getId());
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping(value = "/menu/roleMenuButton")
+    private ResponseData<List<Integer>> roleMenuButton(@RequestBody RoleMenuRel menu) {
+        List<Integer> list;
+        try {
+            list = roleMenuRelService.roleMenuButton(menu);
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping(value = "/menu/saveButtonAccess")
+    private ResponseData<RoleMenuRel>  saveButtonAccess(@RequestBody RoleMenuRel roleMenuRel) {
+        Integer buttonAccess=0;
+        try {
+
+            for (int i = 0; i < roleMenuRel.getAccessList().size(); i++) {
+                for (Map<String, String> buttonDatum : roleMenuRel.getButtonData()) {
+                    if(buttonDatum.get("key")!=null&&buttonDatum.get("key").equals(roleMenuRel.getAccessList().get(i))){
+//                           String aa=buttonDatum.get("rightDescribe");
+                            buttonAccess+=Integer.parseInt(buttonDatum.get("rightDescribe"));
+                    }
+                }
+
+            }
+            roleMenuRel.setButton(buttonAccess);
+            roleMenuRelService.saveButtonAccess(roleMenuRel);
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
 
     @PostMapping("/menu/table")
     @Override
@@ -226,9 +299,65 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
                 }
             }
             else{
-                result = validateMenu(menuInfo.getSubModules(),url,button);
+                result = validateMenu(menuInfo.getChildren(),url,button);
             }
         }
         return result;
+    }
+
+    @PostMapping("/right/queryRightTable")
+    private ResponseData<List<MenuRightInfo>> queryRightTable(@RequestBody MenuRightInfo menuRightInfo) {
+        logger.debug("根据菜单查询按钮");
+        List<MenuRightInfo> list;
+        try {
+            list = menuRightInfoService.getRightsByMenuId(menuRightInfo.getMenuId());
+        }catch (Exception e){
+            logger.error("根据用户查询角色失败");
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+
+    @PostMapping("/right/checkRight")
+    private ResponseData<List<MenuRightInfo>> checkRight(@RequestBody MenuRightInfo menuRightInfo) {
+        logger.debug("根据菜单查询按钮");
+        List<MenuRightInfo> list;
+        try {
+            list = menuRightInfoService.checkRight(menuRightInfo);
+        }catch (Exception e){
+            logger.error("根据用户查询角色失败");
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping("/right/rightInsert")
+    private ResponseData<MenuRightInfo> rightInsert(@RequestBody MenuRightInfo menuRightInfo) {
+        logger.debug("根据菜单保存按钮");
+        menuRightInfo.setRightDescribe((int)Math.pow(2,menuRightInfo.getSort()));
+        try {
+             menuRightInfoService.insertSelective(menuRightInfo);
+        }catch (Exception e){
+            logger.error("根据用户查询角色失败");
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
+    @PostMapping("/right/rightUpdate")
+    private ResponseData<MenuRightInfo> rightUpdate(@RequestBody MenuRightInfo menuRightInfo) {
+        logger.debug("根据菜单修改按钮");
+        try {
+            menuRightInfoService.updateByPrimaryKeySelective(menuRightInfo);
+        }catch (Exception e){
+            logger.error("根据用户查询角色失败");
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 }

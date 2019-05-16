@@ -30,11 +30,49 @@
                  select="com.wisdom.auth.data.provider.mapper.mapper.MenuInfoMapper.selectModuleByRoleId" />
   </resultMap>
 
+  <resultMap id="roleMapForTree" type="com.wisdom.auth.data.api.mapper.model.RoleInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLE_NO" property="roleNo" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <select id="getRoleByUserId" resultMap="roleMap">
     SELECT br.*, bur.USER_ID as USER_ID
      FROM USER_ROLE_REL bur
      LEFT JOIN ROLE_INFO br ON bur.ROLE_ID = br.ID
      WHERE bur.USER_ID = #{userId}
   </select>
+
+  <select id="userRoleTree" resultMap="roleMapForTree">
+   SELECT
+  n.checked,
+  n.ROLE_ID,
+  n.expand,
+  m.*, m.ROLE_NAME AS TITLE
+  FROM
+  ROLE_INFO m
+  LEFT JOIN (
+  SELECT
+  'true' checked,
+  'true' AS expand,
+  brm.USER_ID,
+  brm.ROLE_ID
+  FROM
+  USER_ROLE_REL brm
+  LEFT JOIN ROLE_INFO bmr ON brm.ROLE_ID = bmr.ID
+  WHERE
+  brm.USER_ID = #{USER_ID})n on n.ROLE_ID=m.ID
+
+  </select>
+
 
 </mapper>

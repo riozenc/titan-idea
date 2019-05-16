@@ -7,6 +7,7 @@ import com.wisdom.auth.common.pojo.TableData;
 import com.wisdom.auth.data.api.mapper.model.RoleDeptRel;
 import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import com.wisdom.auth.data.api.mapper.model.RoleMenuRel;
+import com.wisdom.auth.data.api.mapper.model.UserRoleRel;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.RoleInfoRequest;
 import com.wisdom.auth.data.api.service.RoleInfoRemoteService;
@@ -14,6 +15,7 @@ import com.wisdom.auth.data.provider.redis.AccessTokenUtils;
 import com.wisdom.auth.data.provider.service.RoleDeptRelService;
 import com.wisdom.auth.data.provider.service.RoleInfoService;
 import com.wisdom.auth.data.provider.service.RoleMenuRelService;
+import com.wisdom.auth.data.provider.service.UserRoleRelService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yxs on 2019/1/17.
@@ -38,6 +38,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
 
     @Autowired
     private RoleMenuRelService roleMenuRelService;
+
+    @Autowired
+    private UserRoleRelService userRoleRelService;
 
     @Autowired
     private RoleDeptRelService roleDeptRelService;
@@ -181,6 +184,68 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
     }
 
 
+    @PostMapping("/role/saveRoleMenuRel")
+    public ResponseData saveRoleMenuRel(@RequestBody RoleMenuRel roleMenuRel) {
+        logger.debug("保存角色权限");
+        try {
+            Map<Integer,String> map=new HashMap<Integer,String>();
+            for (Integer integer : roleMenuRel.getOldRoleList()) {
+                map.put(integer,"old");
+            }
+            for (Integer integer : roleMenuRel.getNewRoleList()) {
+                if(map.get(integer)!=null){
+                    map.put(integer,"false");
+                }else{
+                    map.put(integer,"new");
+                }
+            }
+            List<Integer> needDelList=new ArrayList<Integer>();
+            List<RoleMenuRel> addOrUpdateObj=new ArrayList<RoleMenuRel>();
+
+            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                if ("old".equals(entry.getValue())) {
+                    needDelList.add(entry.getKey());
+                }
+                if ("new".equals(entry.getValue())) {
+                    RoleMenuRel newRoleMenuRel=new RoleMenuRel();
+                    newRoleMenuRel.setMenuId(entry.getKey());
+                    newRoleMenuRel.setStatus(1);
+                    newRoleMenuRel.setRoleId(roleMenuRel.getRoleId());
+                    addOrUpdateObj.add(newRoleMenuRel);
+                }
+            }
+            roleMenuRelService.saveRoleMenuRels(addOrUpdateObj);
+            if(needDelList.size()>0){
+                roleMenuRel.setNeedDelList(needDelList);
+                roleMenuRelService.deleteRoleMenuRel(roleMenuRel);
+            }
+
+        } catch (RuntimeException e) {
+            logger.error("保存角色权限失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
+
+    @PostMapping("/role/saveUserRoleRel")
+    public ResponseData saveUserRoleRel(@RequestBody List<UserRoleRel> userRoleRelList) {
+        logger.debug("保存角色权限");
+        try {
+            userRoleRelService.saveUserRole(userRoleRelList);
+        } catch (RuntimeException e) {
+            logger.error("保存角色权限失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
+
+
     @PostMapping("/role/menu/save")
     public ResponseData saveRoleResourcesAuth(@RequestBody List<RoleMenuRel> roleModule) {
         logger.debug("保存角色权限");
@@ -222,5 +287,19 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         }
 
         return new ResponseData(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
+    @PostMapping(value = "/role/userRoleTree")
+    private ResponseData<List<RoleInfo>> userRoleTree(@RequestBody RoleInfo moduleResources) {
+        logger.debug("查询角色拥有的菜单树");
+        List<RoleInfo> list;
+        try {
+            list = roleInfoService.userRoleTree(moduleResources.getUserId());
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 }

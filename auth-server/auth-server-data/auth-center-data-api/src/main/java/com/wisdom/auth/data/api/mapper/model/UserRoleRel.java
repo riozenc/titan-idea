@@ -3,7 +3,9 @@ package com.wisdom.auth.data.api.mapper.model;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.List;
 
 @Table(name = "USER_ROLE_REL")
 public class UserRoleRel implements Serializable {
@@ -16,6 +18,18 @@ public class UserRoleRel implements Serializable {
 
     @Column(name = "ROLE_ID")
     private Integer roleId;
+
+
+    private static final long serialVersionUID = 1L;
+
+    @Transient
+    private List<Integer> oldRoleList;
+
+    @Transient
+    private List<Integer> newRoleList;
+
+    @Transient
+    private List<Integer> needDelList;
 
     /**
      * @return ID
@@ -57,5 +71,29 @@ public class UserRoleRel implements Serializable {
      */
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public List<Integer> getOldRoleList() {
+        return oldRoleList;
+    }
+
+    public void setOldRoleList(List<Integer> oldRoleList) {
+        this.oldRoleList = oldRoleList;
+    }
+
+    public List<Integer> getNewRoleList() {
+        return newRoleList;
+    }
+
+    public void setNewRoleList(List<Integer> newRoleList) {
+        this.newRoleList = newRoleList;
+    }
+
+    public List<Integer> getNeedDelList() {
+        return needDelList;
+    }
+
+    public void setNeedDelList(List<Integer> needDelList) {
+        this.needDelList = needDelList;
     }
 }

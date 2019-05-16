@@ -43,6 +43,10 @@ public class DeptInfoRequest extends BaseRequestPojo implements Serializable {
 
     @Column(name = "SORT_NO")
     private Integer sortNo;
+
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 下级部门
      */

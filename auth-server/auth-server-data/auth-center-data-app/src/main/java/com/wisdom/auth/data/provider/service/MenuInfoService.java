@@ -2,6 +2,7 @@ package com.wisdom.auth.data.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
 import com.wisdom.auth.data.api.mapper.model.MenuInfo;
+import com.wisdom.auth.data.api.mapper.model.MenuRightInfo;
 import com.wisdom.auth.data.provider.mapper.mapper.MenuInfoMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,12 @@ public class MenuInfoService extends BaseService<MenuInfo> {
 
     public List<MenuInfo> getModuleTree(Integer id, Integer systemId) {
         return ((MenuInfoMapper)mapper).selectModuleTree(id, systemId);
+    }
+
+    public List<MenuInfo> roleMenuTree(Integer id) {
+        return ((MenuInfoMapper)mapper).roleMenuTree(id);
+    }
+    public List<MenuRightInfo> menuButton(Integer id) {
+        return ((MenuInfoMapper)mapper).menuButton(id);
     }
 }

@@ -69,6 +69,8 @@
     WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
   </select>
 
+
+
   <select id="selectDeptTree" resultMap="deptTree">
     SELECT * FROM DEPT_INFO
     <where>

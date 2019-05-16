@@ -10,10 +10,44 @@
     <result column="MENU_ID" property="menuId" jdbcType="INTEGER" />
     <result column="BUTTON" property="button" jdbcType="INTEGER" />
     <result column="OPERATOR_ID" property="operatorId" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
   </resultMap>
 
   <select id="selectLeafRoleModule" resultMap="BaseResultMap">
     SELECT * FROM ROLE_MENU_REL brm WHERE brm.ROLE_ID = #{roleId} AND
     (SELECT count(0) FROM MENU_INFO bms WHERE bms.PARENT_ID = brm.MENU_ID) = 0
+  </select>
+
+  <insert id="saveButtonAccess" useGeneratedKeys="true" keyProperty="id"  >
+    <!-- 查看是否存在,如果存在及更新，否则插入 -->
+    <selectKey keyProperty="count" order="BEFORE" resultType="int">
+      select count(*) as count from ROLE_MENU_REL rmr
+      where rmr.ROLE_ID =#{roleId} and rmr.MENU_ID=#{menuId} AND rmr.STATUS=1
+    </selectKey>
+
+    <!-- 如果大于0则更新 -->
+    <if test="count>0">
+      update ROLE_MENU_REL set BUTTON=#{button} where status=1 and ROLE_ID =#{roleId} and MENU_ID=#{menuId}
+    </if>
+
+    <!-- 如果等于0则保存 -->
+    <if test="count==0">
+      insert into ROLE_MENU_REL(ROLE_ID,MENU_ID,BUTTON,STATUS)
+      values(#{roleId},#{menuId},#{button},1)
+    </if>
+
+  </insert>
+
+
+  <select id="roleMenuButton" resultType="Integer">
+
+    SELECT m.id FROM 	ROLE_MENU_REL r
+LEFT JOIN MENU_RIGHT_INFO m ON r.MENU_ID = m.MENU_ID
+WHERE
+	r.MENU_ID = #{menuId}
+AND r.ROLE_ID = #{roleId}
+AND r.BUTTON &amp; m.RIGHT_DESCRIBE = m.RIGHT_DESCRIBE
+
   </select>
 </mapper>

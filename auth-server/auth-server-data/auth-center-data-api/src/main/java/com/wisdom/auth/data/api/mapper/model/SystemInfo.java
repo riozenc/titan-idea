@@ -33,6 +33,9 @@ public class SystemInfo implements Serializable {
     @Column(name = "UPDATE_DATE")
     private Date updateDate;
 
+    private static final long serialVersionUID = 1L;
+
+
     /**
      * @return ID
      */

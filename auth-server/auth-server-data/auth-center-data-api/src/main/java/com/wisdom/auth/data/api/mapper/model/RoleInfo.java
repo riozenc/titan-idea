@@ -32,11 +32,26 @@ public class RoleInfo implements Serializable,Cloneable {
     @Column(name = "UPDATE_DATE")
     private Date updateDate;
 
+    private static final long serialVersionUID = 2L;
+
     /**
      * 角色资源
      */
     @Transient
     private List<MenuInfo> modules;
+
+    @Transient
+    private Integer userId;
+
+    @Transient
+    private boolean  checked;
+
+    @Transient
+    private boolean  expand;
+
+
+    @Transient
+    private String title;
 
     /**
      * @return ID
@@ -126,6 +141,38 @@ public class RoleInfo implements Serializable,Cloneable {
 
     public List<MenuInfo> getModules() {
         return modules;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setModules(List<MenuInfo> modules) {

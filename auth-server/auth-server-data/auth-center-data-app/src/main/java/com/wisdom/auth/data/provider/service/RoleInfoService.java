@@ -21,4 +21,10 @@ public class RoleInfoService extends BaseService<RoleInfo> {
     public List<RoleInfo> getRoleByUserId(Integer userId) {
         return ((RoleInfoMapper)mapper).getRoleByUserId(userId);
     }
+
+    public List<RoleInfo> userRoleTree(Integer userId) {
+        return ((RoleInfoMapper)mapper).userRoleTree(userId);
+    }
+
+
 }
