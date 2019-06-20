@@ -3,6 +3,7 @@ package com.wisdom.auth.data.api.mapper.model;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -52,6 +53,13 @@ public class UserInfo implements Serializable {
     private Date updateDate;
 
     private static final long serialVersionUID = 1L;
+
+    @Transient
+    private Integer roleId;
+
+    @Transient
+    private Integer userRoleRelId;
+
 
 
     public Integer getId() {
@@ -156,5 +164,21 @@ public class UserInfo implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getUserRoleRelId() {
+        return userRoleRelId;
+    }
+
+    public void setUserRoleRelId(Integer userRoleRelId) {
+        this.userRoleRelId = userRoleRelId;
     }
 }

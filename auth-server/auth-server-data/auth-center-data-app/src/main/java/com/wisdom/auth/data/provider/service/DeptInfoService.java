@@ -31,4 +31,8 @@ public class DeptInfoService extends BaseService<DeptInfo> {
     public List<DeptInfo> selectDeptTree(Integer id) {
         return ((DeptInfoMapper)mapper).selectDeptTree(id);
     }
+
+    public List<DeptInfo> roleDeptTree(Integer id) {
+        return ((DeptInfoMapper)mapper).roleDeptTree(id);
+    }
 }

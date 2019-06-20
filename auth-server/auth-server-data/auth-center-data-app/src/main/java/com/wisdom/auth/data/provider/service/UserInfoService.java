@@ -3,6 +3,7 @@ package com.wisdom.auth.data.provider.service;
 import com.wisdom.auth.autoconfigure.service.BaseService;
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import com.wisdom.auth.data.api.mapper.model.UserRoleRel;
+import com.wisdom.auth.data.provider.mapper.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,12 @@ public class UserInfoService extends BaseService<UserInfo> {
             userRoleRelService.deleteByExample(example);
             deleteByPrimaryKey(e);
         });
+    }
+
+    public List<UserInfo> getUserTableByRoleId(UserInfo info) {
+        return ((UserInfoMapper)mapper).getUserTableByRoleId(info);
+    }
+    public List<UserInfo> getUnUserTableByRoleId(UserInfo info) {
+        return ((UserInfoMapper)mapper).getUnUserTableByRoleId(info);
     }
 }

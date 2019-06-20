@@ -128,7 +128,7 @@
         LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
         LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
         LEFT JOIN SYSTEM_INFO bs ON bmr.SYSTEM_ID = bs.ID
-        WHERE bur.USER_ID = #{userId} AND bmr.PARENT_ID =0 AND bs.ACTIVE =1
+        WHERE bur.USER_ID = #{userId} AND bmr.PARENT_ID =0 AND bs.ACTIVE =1 AND bmr.status=1
         <if test="userId == 1">
             AND SYSTEM_ID = 1
         </if>
@@ -144,6 +144,7 @@
 	LEFT JOIN SYSTEM_INFO bs ON m.SYSTEM_ID = bs.ID
     WHERE  m.PARENT_ID =0
       AND bs.ACTIVE =1
+      AND m.status=1
   </select>
 
     <select id="menuButton" resultMap="menuRightMap">
@@ -161,6 +162,7 @@
 	LEFT JOIN SYSTEM_INFO bs ON m.SYSTEM_ID = bs.ID
     WHERE  m.PARENT_ID =#{ID}
       AND bs.ACTIVE =1
+      AND m.status=1
   </select>
 
     <select id="selectMenusByParentIdWithOperating" resultMap="menuMap">
@@ -168,7 +170,9 @@
      FROM USER_ROLE_REL bur
       LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
       LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
-    WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
+    WHERE bur.USER_ID = #{USER_ID}
+    AND bmr.PARENT_ID = #{ID}
+    AND bmr.status=1
   </select>
 
 
@@ -178,7 +182,9 @@
     LEFT JOIN MENU_INFO bmr on brm.MENU_ID = bmr.ID
     LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
     LEFT JOIN USER_ROLE_REL bur ON bur.ROLE_ID = brm.ROLE_ID
-    WHERE brm.ROLE_ID = #{ID} and bur.USER_ID = #{USER_ID} and bmr.PARENT_ID=0 and bs.ACTIVE = 1
+    WHERE brm.ROLE_ID = #{ID} and bur.USER_ID = #{USER_ID}
+    and bmr.PARENT_ID=0 and bs.ACTIVE = 1
+    AND bmr.status=1
   </select>
 
     <select id="selectModuleByParentId" resultMap="rolesMap">
@@ -187,7 +193,7 @@
     LEFT JOIN ROLE_MENU_REL brm ON bur.ROLE_ID = brm.ROLE_ID
     LEFT JOIN MENU_INFO bmr ON brm.MENU_ID = bmr.ID
     LEFT JOIN SYSTEM_INFO bs ON  bmr.SYSTEM_ID = bs.ID
-    WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
+    WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID} AND bmr.status=1
   </select>
 
     <select id="selectModuleTree" resultMap="moduleTree">
@@ -199,22 +205,23 @@
             <if test="id >0">
                 PARENT_ID = #{id}
             </if>
+            AND status=1
         </where>
     </select>
 
     <select id="selectModuleTreeByParentId" resultMap="moduleTree">
     SELECT *,MENU_NAME AS TITLE FROM MENU_INFO
-    WHERE PARENT_ID = #{ID}
+    WHERE PARENT_ID = #{ID} AND status=1
   </select>
 
     <select id="selectModuleAndSystemBySystemId" resultMap="ModuleAndSystemMap">
     SELECT ID, MENU_NAME,MENU_NAME AS TITLE FROM MENU_INFO
-    WHERE SYSTEM_ID = #{ID} AND PARENT_ID =0
+    WHERE SYSTEM_ID = #{ID} AND PARENT_ID =0 AND status=1
   </select>
 
     <select id="selectModuleAndSystemByParentId" resultMap="ModuleAndSystemMap">
     SELECT MENU_NAME AS TITLE,ID, MENU_NAME FROM MENU_INFO
-    WHERE  PARENT_ID = #{ID}
+    WHERE  PARENT_ID = #{ID} AND status=1
   </select>
 
 

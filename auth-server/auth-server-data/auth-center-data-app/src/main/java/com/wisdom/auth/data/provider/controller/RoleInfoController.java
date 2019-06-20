@@ -203,6 +203,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
             List<RoleMenuRel> addOrUpdateObj=new ArrayList<RoleMenuRel>();
 
             for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                if(entry.getKey()==null){
+                    continue;
+                }
                 if ("old".equals(entry.getValue())) {
                     needDelList.add(entry.getKey());
                 }
@@ -218,6 +221,51 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
             if(needDelList.size()>0){
                 roleMenuRel.setNeedDelList(needDelList);
                 roleMenuRelService.deleteRoleMenuRel(roleMenuRel);
+            }
+
+        } catch (RuntimeException e) {
+            logger.error("保存角色权限失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
+
+    @PostMapping("/role/saveRoleDeptRel")
+    public ResponseData saveRoleDeptRel(@RequestBody RoleDeptRel roleDeptRel) {
+        logger.debug("保存角色权限");
+        try {
+            Map<Integer,String> map=new HashMap<Integer,String>();
+            for (Integer integer : roleDeptRel.getOldRoleList()) {
+                map.put(integer,"old");
+            }
+            for (Integer integer : roleDeptRel.getNewRoleList()) {
+                if(map.get(integer)!=null){
+                    map.put(integer,"false");
+                }else{
+                    map.put(integer,"new");
+                }
+            }
+            List<Integer> needDelList=new ArrayList<Integer>();
+            List<RoleDeptRel> addOrUpdateObj=new ArrayList<RoleDeptRel>();
+
+            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                if ("old".equals(entry.getValue())) {
+                    needDelList.add(entry.getKey());
+                }
+                if ("new".equals(entry.getValue())) {
+                    RoleDeptRel newRoleDeptRel=new RoleDeptRel();
+                    newRoleDeptRel.setDeptId(entry.getKey());
+                    newRoleDeptRel.setRoleId(roleDeptRel.getRoleId());
+                    addOrUpdateObj.add(newRoleDeptRel);
+                }
+            }
+            roleDeptRelService.saveRoleDeptRels(addOrUpdateObj);
+            if(needDelList.size()>0){
+                roleDeptRel.setNeedDelList(needDelList);
+                roleDeptRelService.deleteRoleDeptRel(roleDeptRel);
             }
 
         } catch (RuntimeException e) {
@@ -302,4 +350,5 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
+
 }

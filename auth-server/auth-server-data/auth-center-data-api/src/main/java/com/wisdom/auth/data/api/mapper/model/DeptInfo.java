@@ -21,7 +21,7 @@ public class DeptInfo implements Serializable,Cloneable {
     private String deptId;
 
     @Column(name = "DEPT_NAME")
-    private String title;
+    private String deptName;
 
     @Column(name = "DEPT_TYPE")
     private Integer deptType;
@@ -45,6 +45,19 @@ public class DeptInfo implements Serializable,Cloneable {
      */
     @Transient
     private List<DeptInfo> children;
+
+    @Transient
+    private Integer roleId;
+
+    @Transient
+    private boolean  checked;
+
+    @Transient
+    private boolean  expand;
+
+    @Transient
+    private String title;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -89,19 +102,6 @@ public class DeptInfo implements Serializable,Cloneable {
         this.deptId = deptId == null ? null : deptId.trim();
     }
 
-    /**
-     * @return the value of DEPT_INFO.DEPT_NAME
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the value for DEPT_INFO.DEPT_NAME
-     */
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
 
     /**
      * @return the value of DEPT_INFO.DEPT_TYPE
@@ -187,6 +187,46 @@ public class DeptInfo implements Serializable,Cloneable {
 
     public void setChildren(List<DeptInfo> children) {
         this.children = children;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

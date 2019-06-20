@@ -190,4 +190,26 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
     }
 
+    @GetMapping("/dept/getDeptById/{id}")
+    public ResponseData<DeptInfo> getDeptById(@PathVariable("id") String id) {
+        DeptInfo deptInfo = new DeptInfo();
+        deptInfo.setId(new Integer(id));
+        deptInfo = deptInfoService.selectOne(deptInfo);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), "", ResponseCode.SUCCESS.getMessage(), deptInfo);
+    }
+
+    @PostMapping(value = "/menu/roleDeptTree")
+    private ResponseData<List<DeptInfo>> roleDeptTree(@RequestBody DeptInfo moduleResources) {
+        logger.debug("查询角色拥有的菜单树");
+        List<DeptInfo> list;
+        try {
+            list = deptInfoService.roleDeptTree(moduleResources.getRoleId());
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
 }

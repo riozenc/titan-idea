@@ -16,4 +16,35 @@
     <result column="IMAGE_URL" property="imageUrl" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="getUserTableByRoleId" resultMap="BaseResultMap">
+    SELECT U.*,T.id as userRoleRelId FROM USER_INFO U,USER_ROLE_REL T
+    <where>
+      U.ID=T.USER_ID AND T.ROLE_ID = #{roleId}
+      <if test="userId != null and userId != ''">
+        AND U.USER_ID = #{userId}
+      </if>
+      <if test="userName != null and userName != ''">
+        AND U.USER_NAME = #{userName}
+      </if>
+
+    </where>
+
+  </select>
+
+  <select id="getUnUserTableByRoleId" resultMap="BaseResultMap">
+    SELECT U.*,#{roleId} as roleId FROM USER_INFO U
+    <where>
+      U.id not in(select USER_ID from USER_ROLE_REL WHERE ROLE_ID = #{roleId})
+
+      <if test="userId != null and userId != ''">
+        AND U.USER_ID = #{userId}
+      </if>
+      <if test="userName != null and userName != ''">
+        AND U.USER_NAME = #{userName}
+      </if>
+
+    </where>
+
+  </select>
 </mapper>

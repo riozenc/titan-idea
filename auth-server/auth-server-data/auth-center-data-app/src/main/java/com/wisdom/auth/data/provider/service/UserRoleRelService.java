@@ -30,5 +30,9 @@ public class UserRoleRelService extends BaseService<UserRoleRel> {
         }
     }
 
-
+    public void  deleteUserRoleRel(List<UserRoleRel> userRoleRelList) {
+        userRoleRelList.forEach(it -> {
+            mapper.delete(it);
+        });
+    }
 }

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fp295 on 2018/5/13.
@@ -27,6 +29,7 @@ import java.util.List;
 public class SystemInfoController extends CrudController<SystemInfo, SystemInfoRequest> {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    public Map<String,List<Map<String,String>>> dropMap=new HashMap<String,List<Map<String,String>>>();
 
     @Autowired
     private SystemInfoService systemInfoService;
@@ -134,5 +137,7 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
+
+
 
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
+import com.wisdom.auth.data.api.mapper.model.RoleInfo;
 import com.wisdom.auth.data.api.mapper.model.UserInfo;
 import com.wisdom.auth.data.api.mapper.model.UserRoleRel;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
@@ -189,6 +190,20 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 
+    @PostMapping("/user/role/deleteUserRoleRelList")
+    public ResponseData deleteUserRoleRelList(@RequestBody List<UserRoleRel> UserRoleRelList) {
+        logger.debug("批量删除用户角色关联");
+        try {
+            userRoleRelService.deleteUserRoleRel(UserRoleRelList);
+        } catch (RuntimeException e) {
+            logger.error("批量删除用户角色关联失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+    }
+
     @GetMapping("/user/validate/{userId}")
     public ResponseData<UserInfo> validateUserName(@PathVariable("userId") String userId) {
         logger.debug("校验用户名是否存在");
@@ -212,5 +227,48 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
             return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
         }
         return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+    }
+
+    @PostMapping(value = "/user/getUserTableByRole")
+    private ResponseData<List<UserInfo>> getUserTableByRole(@RequestBody UserInfo moduleResources) {
+        logger.debug("查询该角色下的用户");
+        List<UserInfo> list;
+        try {
+            list = userInfoService.getUserTableByRoleId(moduleResources);
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping(value = "/user/getUnUserTableByRole")
+    private ResponseData<List<UserInfo>> getUnUserTableByRole(@RequestBody UserInfo moduleResources) {
+        logger.debug("查询未关联本角色的用户");
+        List<UserInfo> list;
+        try {
+            list = userInfoService.getUnUserTableByRoleId(moduleResources);
+        } catch (Exception e) {
+            logger.error("查询模块树异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping("/user/role/addUserRoleRel")
+    public ResponseData<UserInfo> addUserRoleRel(@RequestBody List<UserRoleRel> userRoleRelList) {
+        System.out.println("------------------------provider1-------------------------------"+ userRoleRelList);
+        logger.debug("保存角色授权用户");
+        try {
+            userRoleRelList.forEach(it ->
+                    userRoleRelService.insertSelective(it));
+        } catch (Exception e) {
+            logger.error("保存角色授权用户失败" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
 }
