@@ -4,12 +4,14 @@ import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.common.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
+import com.wisdom.auth.data.api.mapper.model.DeptInfo;
 import com.wisdom.auth.data.api.mapper.model.DropSql;
 import com.wisdom.auth.data.api.mapper.model.SystemInfo;
 import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.pojo.request.DropSqlRequest;
 import com.wisdom.auth.data.api.pojo.request.SystemInfoRequest;
 import com.wisdom.auth.data.api.pojo.response.ModuleAndSystemResponse;
+import com.wisdom.auth.data.provider.service.DeptInfoService;
 import com.wisdom.auth.data.provider.service.DropSqlService;
 import com.wisdom.auth.data.provider.service.SystemInfoService;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +35,7 @@ public class DropSqlController extends CrudController<DropSql, DropSqlRequest> {
     @Autowired
     private DropSqlService dropSqlService;
 
+
     @PostMapping("/system/getSysDropFromSql")
     @ResponseBody
     public Object getSysDropFromSql() {
@@ -41,9 +44,10 @@ public class DropSqlController extends CrudController<DropSql, DropSqlRequest> {
             List<LinkedHashMap<String, Object>> list = dropSqlService.findBySql(dom.getDropsql());
             dropMap.put(dom.getDropName(),list);
         }
-
         return dropMap;
     }
+
+
 
     @Override
     protected ResponseData<TableData<DropSql>> queryRecord(DropSqlRequest query) {

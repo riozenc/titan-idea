@@ -78,6 +78,7 @@
       <if test='userId != 1'>
         AND bur.USER_ID = #{userId}
       </if>
+        and bmr.status = 1
     </where>
   </select>
 
@@ -87,6 +88,7 @@
     LEFT JOIN ROLE_DEPT_REL brm ON bur.ROLE_ID = brm.ROLE_ID
     LEFT JOIN DEPT_INFO bmr ON brm.DEPT_ID = bmr.ID
     WHERE bur.USER_ID = #{USER_ID} AND bmr.PARENT_ID = #{ID}
+    and bmr.status = 1
   </select>
 
 
@@ -103,7 +105,7 @@
     </where>
   </select>
 
-  <select id="selectDeptTreeByParentId" resultMap="BaseResultMap">
+  <select id="selectDeptTreeByParentId" resultMap="deptTree">
     SELECT * FROM DEPT_INFO
     WHERE PARENT_ID = #{ID}
   </select>
@@ -129,5 +131,21 @@
     LEFT JOIN DEPT_INFO bmr ON brm.DEPT_ID = bmr.ID
 	where brm.ROLE_ID=#{ROLE_ID})n on n.DEPT_ID=m.ID
 	WHERE  m.PARENT_ID =#{ID}
+  </select>
+
+  <select id="selectDeptDrop" resultMap="BaseResultMap">
+   SELECT * FROM DEPT_INFO
+   <where>
+     1=1
+       and STATUS=1
+     <if test="deptType!=null and deptType!=''">
+       and DEPT_TYPE=#{deptType}
+     </if>
+
+     <if test="parentId!=null and parentId!=''">
+       and PARENT_ID=#{parentId}
+     </if>
+     
+   </where>
   </select>
 </mapper>

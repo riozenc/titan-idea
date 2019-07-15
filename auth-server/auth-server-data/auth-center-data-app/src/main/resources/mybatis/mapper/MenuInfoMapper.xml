@@ -205,13 +205,13 @@
             <if test="id >0">
                 PARENT_ID = #{id}
             </if>
-            AND status=1
+
         </where>
     </select>
 
     <select id="selectModuleTreeByParentId" resultMap="moduleTree">
     SELECT *,MENU_NAME AS TITLE FROM MENU_INFO
-    WHERE PARENT_ID = #{ID} AND status=1
+    WHERE PARENT_ID = #{ID}
   </select>
 
     <select id="selectModuleAndSystemBySystemId" resultMap="ModuleAndSystemMap">
