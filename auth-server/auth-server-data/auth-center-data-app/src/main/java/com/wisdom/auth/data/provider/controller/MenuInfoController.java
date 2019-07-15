@@ -93,7 +93,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         logger.debug("查询模块树");
         List<MenuInfo> list;
         try {
-            list = menuInfoService.getModuleTree(moduleResources.getId(), moduleResources.getSystemId());
+            list = menuInfoService.getModuleTree(moduleResources.getId(), moduleResources.getSystemId(), moduleResources.getStatus());
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();

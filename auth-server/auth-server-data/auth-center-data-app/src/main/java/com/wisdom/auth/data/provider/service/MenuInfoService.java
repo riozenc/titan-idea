@@ -24,8 +24,8 @@ public class MenuInfoService extends BaseService<MenuInfo> {
         return ((MenuInfoMapper)mapper).getMenusByUserId(userId);
     }
 
-    public List<MenuInfo> getModuleTree(Integer id, Integer systemId) {
-        return ((MenuInfoMapper)mapper).selectModuleTree(id, systemId);
+    public List<MenuInfo> getModuleTree(Integer id, Integer systemId, Integer status) {
+        return ((MenuInfoMapper)mapper).selectModuleTree(id, systemId, status);
     }
 
     public List<MenuInfo> roleMenuTree(Integer id) {

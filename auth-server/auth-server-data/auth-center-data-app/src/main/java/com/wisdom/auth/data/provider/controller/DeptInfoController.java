@@ -212,4 +212,18 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
     }
 
+    //桂东网站下拉
+    @RequestMapping(value = "/dept/getDeptDrop")
+    public ResponseData<List<DeptInfo>> getDeptDrop(@RequestBody DeptInfo moduleResources) {
+        logger.debug("查询桂东网站下拉");
+        List<DeptInfo> list;
+        try {
+            list = deptInfoService.selectDeptDrop(moduleResources);
+        } catch (Exception e) {
+            logger.error("查询桂东网站下拉异常" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), "", ResponseCode.SUCCESS.getMessage(), list);
+    }
 }

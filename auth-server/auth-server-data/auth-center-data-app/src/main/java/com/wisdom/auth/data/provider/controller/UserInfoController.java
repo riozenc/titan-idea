@@ -88,7 +88,9 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         if(!StringUtils.isEmpty(query.getPhone())) {
             criteria.andLike("phone", "%" + query.getPhone() + "%");
         }
-
+        if(!StringUtils.isEmpty(query.getPhone())) {
+            criteria.andEqualTo("status",  query.getStatus());
+        }
         PageInfo<UserInfo> pageInfo = userInfoService.selectByExampleList(example, query.getPageNum(), query.getPageSize());
 
         return getTableData(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), pageInfo);
@@ -131,7 +133,8 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
     protected ResponseData<UserInfo> updateRecord(@RequestBody UserInfo record) {
         logger.debug("更新用户");
         try {
-            record.setPassword(null);
+            record.setPassword(new BCryptPasswordEncoder(6).encode(record.getPassword()));
+//            record.setPassword(null);
             record.setUpdateDate(new Date());
             userInfoService.updateByPrimaryKeySelective(record);
         } catch (Exception e) {

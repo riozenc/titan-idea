@@ -106,6 +106,12 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         if(!StringUtils.isEmpty(query.getRoleName())) {
             criteria.andLike("roleName", "%" + query.getRoleName() + "%");
         }
+        if(!StringUtils.isEmpty(query.getRemark())) {
+            criteria.andLike("remark", "%" + query.getRemark() + "%");
+        }
+        if(query.getStatus()!= null) {
+            criteria.andEqualTo("status",  query.getStatus() );
+        }
 
         PageInfo<RoleInfo> pageInfo = roleInfoService.selectByExampleList(example, query.getPageNum(), query.getPageSize());
 
