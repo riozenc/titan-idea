@@ -56,6 +56,25 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
     }
 
     /**
+     * 根据用户名获取用户信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public ResponseData<UserInfo> getUserByUserNameHegang(@PathVariable("userId") String userId) {
+        logger.debug("根据用户名查询鹤岗用户");
+        if(StringUtils.isEmpty(userId)){
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        }
+        UserInfo userInfo = new UserInfo();
+//        userInfo.setUserName(userName);
+        userInfo.setUserId(userId);
+        userInfo = userInfoService.selectHegangUser(userInfo);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), userInfo);
+    }
+
+
+    /**
      * 根据电话号码查询用户信息
      * @param phone
      * @return

@@ -17,6 +17,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
 
+
   <select id="getUserTableByRoleId" resultMap="BaseResultMap">
     SELECT U.*,T.id as userRoleRelId FROM USER_INFO U,USER_ROLE_REL T
     <where>
@@ -46,5 +47,9 @@
 
     </where>
 
+  </select>
+
+  <select id="selectHegangUser" resultMap="BaseResultMap">
+    SELECT id as id,xm as password as userRoleRelId FROM txl
   </select>
 </mapper>

@@ -9,11 +9,11 @@ server:
 spring:
   redis:
     database: 0
-    host: ${REDIS_HOST:172.20.100.30}
+    host: ${REDIS_HOST:172.21.29.55}
     port: ${REDIS_PORT:6379}
   datasource:
     druid:
-      url: jdbc:mysql://${MYSQL_HOST:172.20.100.30}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: one
       password: df6100
       driver-class-name: com.mysql.jdbc.Driver
@@ -46,10 +46,10 @@ spring:
       #content-type: text/html
       #suffix: .ftl
   rabbitmq:
-      host: ${MQ_HOST:172.20.100.29}
-      port: 5672
-      username: guest
-      password: guest
+    host: ${MQ_HOST:172.21.29.55}
+    port: 5672
+    username: guest
+    password: guest
 
 logging:
   file: logs/auth-server.log

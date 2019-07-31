@@ -50,13 +50,14 @@ public class BaseUserDetailService implements UserDetailsService {
     private MenuInfoService menuInfoService;
     @Autowired
     private DeptInfoService deptInfoService;
+//    @Autowired
+//    private RedisTemplate<String, RoleInfo> redisTemplate;
+//    @Autowired
+//    private RedisTemplate<String, MenuInfo> resourcesTemplate;
+//    @Autowired
+//    private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
     @Autowired
-    private RedisTemplate<String, RoleInfo> redisTemplate;
-    @Autowired
-    private RedisTemplate<String, MenuInfo> resourcesTemplate;
-    @Autowired
-    private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
-
+    private RedisTemplate redisTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException {
@@ -94,7 +95,9 @@ public class BaseUserDetailService implements UserDetailsService {
         } else {
             // 账号密码登陆调用FeignClient根据用户名查询用户 TODO 多个clinet?
             ResponseData<UserInfo> baseUserResponseData = null;
+//            baseUserResponseData = baseUserService.getUserByUserName(parameter[1]);
             baseUserResponseData = baseUserService.getUserByUserName(parameter[1]);
+
 
             System.out.println("====baseUserResponseData:" + JsonUtils.deserializer(baseUserResponseData));
             if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatus())) {
@@ -141,15 +144,15 @@ public class BaseUserDetailService implements UserDetailsService {
 
         // 存储菜单到redis
         if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatus()) && baseModuleResourceListResponseData.getData() != null) {
-            resourcesTemplate.delete(userInfo.getId() + "-menu");
+            redisTemplate.delete(userInfo.getId() + "-menu");
             baseModuleResourceListResponseData.getData().forEach(e -> {
-                resourcesTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
+                redisTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
             });
         }
         if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatus()) && deptInfoListResponseData.getData() != null) {
-            deptInfoRedisTemplate.delete(userInfo.getId() + "-dept");
+            redisTemplate.delete(userInfo.getId() + "-dept");
             deptInfoListResponseData.getData().forEach(e -> {
-                deptInfoRedisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
+                redisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
             });
         }
         // 返回带有用户权限信息的User

@@ -40,6 +40,7 @@ public class MyLoginAuthenticationFilter extends AbstractAuthenticationProcessin
     private static final String SPRING_SECURITY_RESTFUL_VERIFY_CODE_KEY = "verifyCode";
     private static final String SPRING_SECURITY_RESTFUL_QR_CODE_KEY = "qrCode";
     
+//    private static final String SPRING_SECURITY_RESTFUL_LOGIN_URL = "/auth/oauth/token";
     private static final String SPRING_SECURITY_RESTFUL_LOGIN_URL = "/login";
     private boolean postOnly = true;
 

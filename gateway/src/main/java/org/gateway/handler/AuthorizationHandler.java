@@ -28,7 +28,6 @@ public class AuthorizationHandler {
 	@ResponseBody
 	@PostMapping(params = "method=login")
 	public String login(ServerWebExchange exchange) {
-
 		MultiValueMap<String, String> params = exchange.getFormData().block();
 
 		HttpHeaders httpHeaders = new HttpHeaders();

@@ -36,6 +36,7 @@ abstract public class CrudController<T, R> {
      */
     protected ResponseData<TableData<T>> getTableData(Integer code, String message, PageInfo<T> pageInfo)  {
         TableData<T> data = new TableData();
+        
         data.setTotal(pageInfo.getTotal());
         data.setRows(pageInfo.getList());
         return new ResponseData(code,"", message, data);

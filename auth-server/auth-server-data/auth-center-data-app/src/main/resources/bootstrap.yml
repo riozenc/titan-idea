@@ -1,5 +1,6 @@
 server:
-  context-path: /auth-data
+  servlet:
+   context-path: /auth-data
 spring:
   application:
     name: auth-data
@@ -12,7 +13,7 @@ spring:
     #  discovery:
     #   prefer-ip-address: true
     config:
-      fail-fast: true
+      fail-fast: false
       discovery:
         service-id: config-server
         enabled: true
@@ -21,7 +22,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${RS_HOST:172.20.100.29}:7777/eureka/
+      defaultZone: http://${RS_HOST:172.21.29.14}:7777/eureka/
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30

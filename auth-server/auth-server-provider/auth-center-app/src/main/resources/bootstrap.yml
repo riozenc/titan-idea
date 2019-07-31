@@ -1,6 +1,9 @@
 server:
-  context-path: /auth
+  servlet:
+   context-path: /auth
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: auth-center
   profiles:
@@ -23,7 +26,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${RS_HOST:172.20.100.29}:7777/eureka/
+      defaultZone: http://${RS_HOST:172.21.29.14}:7777/eureka/
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30

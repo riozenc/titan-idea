@@ -20,6 +20,10 @@ public interface UserInfoRemoteService {
     @RequestMapping(value = "/user/name/{userId}", method = RequestMethod.GET)
     ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId);
 
+    @RequestMapping(value = "/user/nameHegang/{userId}", method = RequestMethod.GET)
+    ResponseData<UserInfo> getUserByUserNameHegang(@PathVariable("userId") String userId);
+
+
     /**
      * 根据电话号码查询用户
      * @param phone

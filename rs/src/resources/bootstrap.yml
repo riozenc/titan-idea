@@ -2,10 +2,11 @@ spring:
   application:
     name: rs
 server:
-  port: 7777
+  port: 7778
 eureka:
   instance:
-    hostname: localhost
+#    hostname: 172.20.100.29
+    hostname: 172.21.29.14
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 4000

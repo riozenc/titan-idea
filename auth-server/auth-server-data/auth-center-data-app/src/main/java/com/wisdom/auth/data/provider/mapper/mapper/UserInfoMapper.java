@@ -11,4 +11,5 @@ import java.util.List;
 public interface UserInfoMapper extends Mapper<UserInfo> {
     List<UserInfo> getUserTableByRoleId(UserInfo info);
     List<UserInfo> getUnUserTableByRoleId(UserInfo info);
+    UserInfo selectHegangUser(UserInfo info);
 }

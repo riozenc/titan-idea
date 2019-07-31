@@ -32,13 +32,15 @@ public class AccessTokenUtils {
     @Autowired
     AccessTokenConfiguration accessTokenConfiguration;
 
-    @Autowired
-    private RedisTemplate<String, RoleInfo> baseRoleTemplate;
-
-    @Autowired
-    private RedisTemplate<String, MenuInfo> baseModelTemplate;
-    @Autowired
-    private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
+//    @Autowired
+//    private RedisTemplate<String, RoleInfo> baseRoleTemplate;
+//
+//    @Autowired
+//    private RedisTemplate<String, MenuInfo> baseModelTemplate;
+//    @Autowired
+//    private RedisTemplate<String, DeptInfo> deptInfoRedisTemplate;
+@Autowired
+private RedisTemplate redisTemplate;
     /**
      * 从token获取用户信息
      * @return
@@ -62,20 +64,20 @@ public class AccessTokenUtils {
 
     public List<RoleInfo> getRoleInfo(){
         String userId = getUserInfo().getId().toString();
-        long size = baseRoleTemplate.opsForList().size(userId);
-        return baseRoleTemplate.opsForList().range(userId, 0, size);
+        long size = redisTemplate.opsForList().size(userId);
+        return redisTemplate.opsForList().range(userId, 0, size);
     }
 
     public List<MenuInfo> getMenuInfo(){
         String key = getUserInfo().getId().toString() + "-menu";
-        long size = baseModelTemplate.opsForList().size(key);
-        return baseModelTemplate.opsForList().range(key, 0, size);
+        long size = redisTemplate.opsForList().size(key);
+        return redisTemplate.opsForList().range(key, 0, size);
     }
 
     public List<DeptInfo> getDeptInfo(){
         String key = getUserInfo().getId().toString() + "-dept";
-        long size = deptInfoRedisTemplate.opsForList().size(key);
-        return deptInfoRedisTemplate.opsForList().range(key, 0, size);
+        long size = redisTemplate.opsForList().size(key);
+        return redisTemplate.opsForList().range(key, 0, size);
     }
 
     protected String extractHeaderToken(HttpServletRequest request) {
