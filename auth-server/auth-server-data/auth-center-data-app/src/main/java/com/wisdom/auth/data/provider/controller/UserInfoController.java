@@ -293,4 +293,5 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
     }
+
 }
