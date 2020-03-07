@@ -19,7 +19,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${RS_HOST:localhost}:7777/eureka/
+      defaultZone: http://${RS_HOST:localhost}:7778/eureka/
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30

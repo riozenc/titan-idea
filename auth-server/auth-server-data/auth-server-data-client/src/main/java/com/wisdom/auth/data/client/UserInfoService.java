@@ -7,9 +7,7 @@ import com.wisdom.auth.data.api.pojo.ResponseCode;
 import com.wisdom.auth.data.api.service.UserInfoRemoteService;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by yxs on 2019/1/9.
@@ -19,10 +17,13 @@ public interface UserInfoService extends UserInfoRemoteService {
     @PostMapping(value = "/user")
     ResponseData<UserInfo> addRecord(@RequestBody UserInfo record);
 
+    @RequestMapping(value = "/user/name/{userId}", method = RequestMethod.GET)
+    ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId);
     class HystrixClientFallback implements UserInfoService {
 
         @Override
         public ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId) {
+            System.out.println("进入方法client");
             return new ResponseData<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage(),ResponseCode.ERROR.getMessage());
         }
 

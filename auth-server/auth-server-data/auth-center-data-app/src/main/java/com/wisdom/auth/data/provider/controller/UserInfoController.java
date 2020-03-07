@@ -42,6 +42,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
      * @param userId
      * @return
      */
+
     @Override
     public ResponseData<UserInfo> getUserByUserName(@PathVariable("userId") String userId) {
         logger.debug("根据用户名查询用户");
@@ -60,6 +61,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
      * @param userId
      * @return
      */
+
     @Override
     public ResponseData<UserInfo> getUserByUserNameHegang(@PathVariable("userId") String userId) {
         logger.debug("根据用户名查询鹤岗用户");
